@@ -1,35 +1,33 @@
-# Niotso
+# zTSO
 
-[Niotso](http://niotso.org/) is the “New Implementation of The Sims Online”, aiming to restore The Sims Online as free software.
+zTSO is a experimental implementation of The Sims Online written in Zig that is based on NioTSO's C-based libraries and tools.
 
-## Binaries
+## Requirements
 
-Nightlies for 32-bit Windows and 64-bit Linux are provided at http://niotso.org/pub/snapshots/.
+- [Zig](https://ziglang.org/) 0.11 or newer
 
-Stable builds and source packages are provided at http://niotso.org/pub/stable/.
+## Getting Started
 
-## Compiling instructions
+1. **Clone the Repository**:
 
-For compiling instructions, please see http://wiki.niotso.org/Niotso_-_Compile_guide.
+   ```bash
+   git clone https://github.com/tonytins/ztso.git
+   ```
 
-## Documentation
+2. **Navigate to the Repository**:
 
-One of these days, when we finalize the interface for a package, we will document it using doxygen.
+   ```bash
+   cd zsandbox
+   ```
 
-Documentation over the game itself (including format specifications) occurs at Niotso Wiki:
-http://wiki.niotso.org/
+3. **Run the Examples**: Execute the code examples using the Zig compiler. For instance:
 
-## Copying
+   ```bash
+   zig build run
+   ```
 
-Niotso Client and Niotso Server are distributed under the terms of the GNU GPLv3.
+4. **Experiment and Learn**: Modify the code, try out different constructs, and see how Zig behaves.
 
-While this license does permit others to compile, distribute, change, and distribute changes to Niotso, in reality, many of these freedoms cannot legally be enacted by anybody.
+## License 
 
-Specifically, if you make changes to Niotso such that it significantly changes the "game experience as presented to the player", it cannot be distributed to others. You also may not distribute a version of Niotso that has stripped the EA or Maxis trademarked names or logos anywhere from the game. Personal use of these modifications is okay.
-
-These restrictions are not enforced by us, but may potentially be used by EA in attempt to take down your game.
-
-If you have any questions, you may visit
-http://wiki.niotso.org/Niotso/Legal_Summary
-
-All other packages released by this project are typically either licensed under the ISC License or are public domain.
+I license this project under the GPL-3.0 license - see [LICENSE](LICENSE) for details.
