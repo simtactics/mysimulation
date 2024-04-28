@@ -8,6 +8,14 @@ Although an existing and established reimplementation project already exists, i
 
 The problem is C is, well, C. ¯\\\_(ツ)\_/¯ Accessing NioTSO's code in safer languages like Go or Rust has been historically been difficult. While Zig is still in its infancy, it has proven to be perfectly capable of doing this without jumping through hoops. Making it well worth giving it a try.
 
+Will this succeed? *I have no idea*. I'm not much of a game developer, but that hasn't stopped me from dreaming.
+
+## To do
+
+- [ ] Rewrite header files
+
+- [ ] Write Vitaboy renderer in Zig
+
 ## Requirements
 
 - The Sims Online

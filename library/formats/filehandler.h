@@ -26,62 +26,58 @@
 #include <string.h>
 
 #ifdef WIN32
- #define fhexport __declspec(dllexport)
+#define fhexport __declspec(dllexport);
 #else
- #define fhexport __attribute__((visibility ("default")))
+#define fhexport __attribute__((visibility("default")));
 #endif
 
-struct Asset_t {
-    uint32_t Group;
-    uint32_t File;
-    uint32_t Type;
-};
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-enum FErr {
-    FERR_NOT_FOUND,
-    FERR_OPEN,
-    FERR_BLANK,
-    FERR_MEMORY,
-    FERR_READ,
-    FERR_UNRECOGNIZED,
-    FERR_INVALIDDATA
-};
+    struct Asset_t
+    {
+        uint32_t Group;
+        uint32_t File;
+        uint32_t Type;
+    };
 
-enum ImageFormat_t {
-    FIMG_BGR24,
-    FIMG_BGRA32
-};
+    enum FErr
+    {
+        FERR_NOT_FOUND,
+        FERR_OPEN,
+        FERR_BLANK,
+        FERR_MEMORY,
+        FERR_READ,
+        FERR_UNRECOGNIZED,
+        FERR_INVALIDDATA
+    };
 
-struct Image_t {
-    unsigned Width, Height;
-    ImageFormat_t Format;
-    uint8_t * Data;
-};
+    enum ImageFormat_t
+    {
+        FIMG_BGR24,
+        FIMG_BGRA32
+    };
 
-struct Sound_t {
-    unsigned Channels;
-    unsigned SamplingRate;
-    unsigned BitDepth;
-    unsigned Duration;
-    uint8_t * Data;
-};
+    struct Image_t
+    {
+        unsigned Width, Height;
+        ImageFormat_t Format;
+        uint8_t *Data;
+    };
 
-namespace File {
+    struct Sound_t
+    {
+        unsigned Channels;
+        unsigned SamplingRate;
+        unsigned BitDepth;
+        unsigned Duration;
+        uint8_t *Data;
+    };
 
-inline size_t GetFileSize(FILE * hFile){
-    fseek(hFile, 0, SEEK_END);
-    size_t FileSize = ftell(hFile);
-    fseek(hFile, 0, SEEK_SET);
-    return FileSize;
-}
-
-fhexport extern int Error;
-fhexport extern size_t FileSize;
-
-fhexport uint8_t * ReadFile(const char * Filename);
-fhexport Image_t * ReadImageFile(const char * Filename);
-fhexport Sound_t * ReadSoundFile(const char * Filename);
-
-}
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif

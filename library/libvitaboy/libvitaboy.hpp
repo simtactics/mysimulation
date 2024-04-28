@@ -23,81 +23,98 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
-#include <FileHandler.hpp>
+#include <filehandler.h>
 
 /****
 ** Bytestream
 */
 
-class VBFile_t {
-  private:
+class VBFile_t
+{
+private:
     const uint8_t *Buffer, *Position;
     unsigned Size;
 
-  public:
-    inline void set(const void *_Buffer, unsigned _Size){
-        Buffer = (const uint8_t*) _Buffer;
-        Position = (const uint8_t*) _Buffer;
+public:
+    inline void set(const void *_Buffer, unsigned _Size)
+    {
+        Buffer = (const uint8_t *)_Buffer;
+        Position = (const uint8_t *)_Buffer;
         Size = _Size;
     }
 
-    inline unsigned getpos(){
-        return Position-Buffer;
+    inline unsigned getpos()
+    {
+        return Position - Buffer;
     }
 
-    inline void seekto(unsigned offset){
-        Position = Buffer+offset;
+    inline void seekto(unsigned offset)
+    {
+        Position = Buffer + offset;
     }
-    inline void seekahead(unsigned count){
+    inline void seekahead(unsigned count)
+    {
         Position += count;
     }
-    inline void seekback(unsigned count){
+    inline void seekback(unsigned count)
+    {
         Position -= count;
     }
 
-    inline uint32_t readint32(){
-        uint32_t value = (uint32_t)((Position[0]<<(8*3)) | (Position[1]<<(8*2)) | (Position[2]<<(8*1)) | (Position[3]<<(8*0)));
+    inline uint32_t readint32()
+    {
+        uint32_t value = (uint32_t)((Position[0] << (8 * 3)) | (Position[1] << (8 * 2)) | (Position[2] << (8 * 1)) | (Position[3] << (8 * 0)));
         Position += 4;
         return value;
     }
 
-    inline uint32_t readint16(){
-        uint16_t value = (uint16_t)((Position[0]<<(8*1)) | (Position[1]<<(8*0)));
+    inline uint32_t readint16()
+    {
+        uint16_t value = (uint16_t)((Position[0] << (8 * 1)) | (Position[1] << (8 * 0)));
         Position += 2;
         return value;
     }
 
-    inline uint32_t readint8(){
-        uint8_t value = (uint8_t)((Position[0]<<(8*0)));
+    inline uint32_t readint8()
+    {
+        uint8_t value = (uint8_t)((Position[0] << (8 * 0)));
         Position += 1;
         return value;
     }
 
-    inline float readfloat(){
-        union { uint32_t i; float f; } value;
-        value.i = (uint32_t)((Position[0]<<(8*0)) | (Position[1]<<(8*1)) | (Position[2]<<(8*2)) | (Position[3]<<(8*3)));
+    inline float readfloat()
+    {
+        union
+        {
+            uint32_t i;
+            float f;
+        } value;
+        value.i = (uint32_t)((Position[0] << (8 * 0)) | (Position[1] << (8 * 1)) | (Position[2] << (8 * 2)) | (Position[3] << (8 * 3)));
         Position += 4;
         return value.f;
     }
 
-    inline void readbytes(void* Destination, unsigned length){
+    inline void readbytes(void *Destination, unsigned length)
+    {
         memcpy(Destination, Position, length);
         Position += length;
     }
 
-    inline char* readstring(){
-        //Read a Pascal string with 1 length byte
+    inline char *readstring()
+    {
+        // Read a Pascal string with 1 length byte
         unsigned length = readint8();
-        char *string = (char*) malloc(length+1);
+        char *string = (char *)malloc(length + 1);
         readbytes(string, length);
         string[length] = '\0';
         return string;
     }
 
-    inline char* readstring2(){
-        //Read a Pascal string with 2 length bytes
+    inline char *readstring2()
+    {
+        // Read a Pascal string with 2 length bytes
         unsigned length = readint16();
-        char *string = (char*) malloc(length+1);
+        char *string = (char *)malloc(length + 1);
         readbytes(string, length);
         string[length] = '\0';
         return string;
@@ -110,83 +127,92 @@ extern VBFile_t VBFile;
 ** Common
 */
 
-enum ReadGroup {
+enum ReadGroup
+{
     NOGROUP,
     READGROUP
 };
 
-struct Translation_t {
+struct Translation_t
+{
     float x, y, z;
 };
 
-struct Rotation_t {
+struct Rotation_t
+{
     float x, y, z, w;
 };
 
-struct KeyValuePair_t {
-    char * Key;
-    char * Value;
+struct KeyValuePair_t
+{
+    char *Key;
+    char *Value;
 };
 
-struct Prop_t {
+struct Prop_t
+{
     uint32_t EntriesCount;
-    KeyValuePair_t * Entries;
+    KeyValuePair_t *Entries;
 };
 
-struct PropsList_t {
+struct PropsList_t
+{
     uint32_t PropsCount;
-    Prop_t * Props;
+    Prop_t *Props;
 };
 
-void ReadAsset(Asset_t& Asset, bool ReadGroup);
-void ReadPropEntry(KeyValuePair_t& Entry);
-void ReadPropEntries(Prop_t& Prop);
-void ReadPropsList(PropsList_t& PropsList);
-float DotProduct(Rotation_t * q1, Rotation_t * q2);
-void Normalize(Rotation_t * q);
-void CombineQuaternions(Rotation_t * Destination, Rotation_t * Source);
-void FindQuaternionMatrix(float * Matrix, Rotation_t * Quaternion);
-
+void ReadAsset(Asset_t &Asset, bool ReadGroup);
+void ReadPropEntry(KeyValuePair_t &Entry);
+void ReadPropEntries(Prop_t &Prop);
+void ReadPropsList(PropsList_t &PropsList);
+float DotProduct(Rotation_t *q1, Rotation_t *q2);
+void Normalize(Rotation_t *q);
+void CombineQuaternions(Rotation_t *Destination, Rotation_t *Source);
+void FindQuaternionMatrix(float *Matrix, Rotation_t *Quaternion);
 
 /****
 ** Animation (*.anim)
 */
 
-struct TimeProp_t {
+struct TimeProp_t
+{
     uint32_t ID;
     PropsList_t PropsList;
 };
 
-struct TimePropsList_t {
+struct TimePropsList_t
+{
     uint32_t TimePropsCount;
-    TimeProp_t * TimeProps;
+    TimeProp_t *TimeProps;
 };
 
-struct Motion_t {
+struct Motion_t
+{
     uint32_t Unknown;
-    char * BoneName;
+    char *BoneName;
     uint32_t FrameCount;
-    float Duration; //Converted to seconds
+    float Duration; // Converted to seconds
     uint8_t HasTranslation;
     uint8_t HasRotation;
     uint32_t FirstTranslation;
     uint32_t FirstRotation;
-    Translation_t * Translations;
-    Rotation_t * Rotations;
+    Translation_t *Translations;
+    Rotation_t *Rotations;
 
     uint8_t HasPropsLists;
     uint32_t PropsListsCount;
-    PropsList_t * PropsLists;
+    PropsList_t *PropsLists;
 
     uint8_t HasTimePropsLists;
     uint32_t TimePropsListsCount;
-    TimePropsList_t * TimePropsLists;
+    TimePropsList_t *TimePropsLists;
 };
 
-struct Animation_t {
+struct Animation_t
+{
     uint32_t Version;
-    char * Name;
-    float Duration; //Converted to seconds
+    char *Name;
+    float Duration; // Converted to seconds
     float Distance;
     uint8_t IsMoving;
     uint32_t TranslationsCount;
@@ -196,101 +222,107 @@ struct Animation_t {
     unsigned TranslationsOffset;
     unsigned RotationsOffset;
 
-    Motion_t * Motions;
+    Motion_t *Motions;
 };
 
-void ReadAnimation(Animation_t& Animation);
-void ReadMotion(Animation_t& Animation, Motion_t& Motion);
-void ReadPropsLists(Motion_t& Motion);
-void ReadTimePropsList(TimePropsList_t& TimePropsList);
-void ReadTimePropsLists(Motion_t& Motion);
-
+void ReadAnimation(Animation_t &Animation);
+void ReadMotion(Animation_t &Animation, Motion_t &Motion);
+void ReadPropsLists(Motion_t &Motion);
+void ReadTimePropsList(TimePropsList_t &TimePropsList);
+void ReadTimePropsLists(Motion_t &Motion);
 
 /****
 ** Appearance (*.apr)
 */
 
-struct Appearance_t {
+struct Appearance_t
+{
     uint32_t Version;
     Asset_t Thumbnail;
     uint32_t BindingCount;
-    Asset_t * Bindings;
+    Asset_t *Bindings;
 };
 
-void ReadAppearance(Appearance_t& Appearance);
-
+void ReadAppearance(Appearance_t &Appearance);
 
 /****
 ** Binding (*.bnd)
 */
 
-struct Binding_t {
+struct Binding_t
+{
     uint32_t Version;
-    char * BoneName;
+    char *BoneName;
     uint32_t MeshDef;
     Asset_t Mesh;
     uint32_t AppearanceDef;
     Asset_t Appearance;
 };
 
-void ReadBinding(Binding_t& Binding);
-
+void ReadBinding(Binding_t &Binding);
 
 /****
 ** Collection (*.col)
 */
 
-struct PODef_t {
+struct PODef_t
+{
     uint32_t Index;
     Asset_t PO;
 };
 
-struct Collection_t {
+struct Collection_t
+{
     uint32_t POCount;
-    PODef_t * PurchasableOutfits;
+    PODef_t *PurchasableOutfits;
 };
 
-void ReadCollection(Collection_t& Collection);
-
+void ReadCollection(Collection_t &Collection);
 
 /****
 ** Hand Group (*.hag)
 */
 
-struct HandGroup_t {
+struct HandGroup_t
+{
     uint32_t Version;
     Asset_t HandAppearances[18];
 };
 
-void ReadHandGroup(HandGroup_t& HandGroup);
-
+void ReadHandGroup(HandGroup_t &HandGroup);
 
 /****
 ** Mesh (*.mesh)
 */
 
-struct TextureVertex_t {
+struct TextureVertex_t
+{
     float u, v;
 };
 
-struct Coord_t {
+struct Coord_t
+{
     float x, y, z;
 };
 
-struct TextureCoord_t {
+struct TextureCoord_t
+{
     float u, v;
 };
 
-struct NormalCoord_t {
+struct NormalCoord_t
+{
     float x, y, z;
 };
 
-struct BlendData_t {
+struct BlendData_t
+{
     float Weight;
     unsigned OtherVertex;
 };
 
-struct Vertex_t {
+struct Vertex_t
+{
     Coord_t Coord;
     TextureCoord_t TextureCoord;
     NormalCoord_t NormalCoord;
@@ -299,11 +331,13 @@ struct Vertex_t {
     BlendData_t BlendData;
 };
 
-struct Face_t {
+struct Face_t
+{
     unsigned VertexA, VertexB, VertexC;
 };
 
-struct BoneBinding_t {
+struct BoneBinding_t
+{
     unsigned BoneIndex;
     unsigned FirstRealVertex;
     unsigned RealVertexCount;
@@ -311,40 +345,43 @@ struct BoneBinding_t {
     unsigned BlendVertexCount;
 };
 
-struct Mesh_t {
+struct Mesh_t
+{
     uint32_t Version;
     uint32_t BoneCount;
-    char ** BoneNames;
+    char **BoneNames;
     uint32_t FaceCount;
-    Face_t * FaceData;
+    Face_t *FaceData;
     uint32_t BindingCount;
-    BoneBinding_t * BoneBindings;
+    BoneBinding_t *BoneBindings;
     uint32_t RealVertexCount;
     uint32_t BlendVertexCount;
     uint32_t TotalVertexCount;
-    Vertex_t * VertexData;
-    Vertex_t * TransformedVertexData;
+    Vertex_t *VertexData;
+    Vertex_t *TransformedVertexData;
 };
 
-void ReadMesh(Mesh_t& Mesh);
-
+void ReadMesh(Mesh_t &Mesh);
 
 /****
 ** Outfit (*.oft)
 */
 
-enum OutfitColor {
+enum OutfitColor
+{
     OutfitColor_Light,
     OutfitColor_Medium,
     OutfitColor_Dark
 };
 
-enum OutfitRegion {
+enum OutfitRegion
+{
     OutfitRegion_Head = 0,
     OutfitRegion_Body = 18
 };
 
-struct Outfit_t {
+struct Outfit_t
+{
     uint32_t Version;
     uint32_t Unknown;
     Asset_t Appearance[3];
@@ -352,14 +389,14 @@ struct Outfit_t {
     uint32_t Region;
 };
 
-void ReadOutfit(Outfit_t& Outfit);
-
+void ReadOutfit(Outfit_t &Outfit);
 
 /****
 ** Purchasable Outfit (*.po)
 */
 
-struct PurchasableOutfit_t {
+struct PurchasableOutfit_t
+{
     uint32_t Version;
     uint32_t Unknown;
     uint32_t OutfitDef;
@@ -368,17 +405,17 @@ struct PurchasableOutfit_t {
     Asset_t Collection;
 };
 
-void ReadPurchasableOutfit(PurchasableOutfit_t& PurchasableOutfit);
-
+void ReadPurchasableOutfit(PurchasableOutfit_t &PurchasableOutfit);
 
 /****
 ** Skeleton (*.skel)
 */
 
-struct Bone_t {
+struct Bone_t
+{
     uint32_t Unknown;
-    char * Name;
-    char * ParentsName;
+    char *Name;
+    char *ParentsName;
     uint8_t HasProps;
     PropsList_t PropsList;
     Translation_t Translation;
@@ -390,18 +427,19 @@ struct Bone_t {
     float WigglePower;
 
     unsigned ChildrenCount;
-    Bone_t ** Children;
+    Bone_t **Children;
 };
 
-struct Skeleton_t {
+struct Skeleton_t
+{
     uint32_t Version;
-    char * Name;
+    char *Name;
     uint16_t BoneCount;
-    Bone_t * Bones;
+    Bone_t *Bones;
 };
 
-void ReadSkeleton(Skeleton_t& Bone);
-void ReadBone(Skeleton_t& Skeleton, Bone_t& Bone, unsigned Index);
-unsigned FindBone(Skeleton_t& Skeleton, const char * BoneName, unsigned Count);
+void ReadSkeleton(Skeleton_t &Bone);
+void ReadBone(Skeleton_t &Skeleton, Bone_t &Bone, unsigned Index);
+unsigned FindBone(Skeleton_t &Skeleton, const char *BoneName, unsigned Count);
 
 #endif
