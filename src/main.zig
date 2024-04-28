@@ -1,6 +1,6 @@
 const std = @import("std");
 const iff = @cImport({
-    @cInclude("./iff/iffparser.h");
+    @cInclude("./iff/iff.h");
 });
 
 pub fn main() !void {
