@@ -31,53 +31,44 @@
 #define fhexport __attribute__((visibility("default")));
 #endif
 
-#ifdef __cplusplus
-extern "C"
+struct Asset_t
 {
-#endif
+    uint32_t Group;
+    uint32_t File;
+    uint32_t Type;
+};
 
-    struct Asset_t
-    {
-        uint32_t Group;
-        uint32_t File;
-        uint32_t Type;
-    };
+enum FErr
+{
+    FERR_NOT_FOUND,
+    FERR_OPEN,
+    FERR_BLANK,
+    FERR_MEMORY,
+    FERR_READ,
+    FERR_UNRECOGNIZED,
+    FERR_INVALIDDATA
+};
 
-    enum FErr
-    {
-        FERR_NOT_FOUND,
-        FERR_OPEN,
-        FERR_BLANK,
-        FERR_MEMORY,
-        FERR_READ,
-        FERR_UNRECOGNIZED,
-        FERR_INVALIDDATA
-    };
+enum ImageFormat_t
+{
+    FIMG_BGR24,
+    FIMG_BGRA32
+};
 
-    enum ImageFormat_t
-    {
-        FIMG_BGR24,
-        FIMG_BGRA32
-    };
+struct Image_t
+{
+    unsigned Width, Height;
+    ImageFormat_t Format;
+    uint8_t *Data;
+};
 
-    struct Image_t
-    {
-        unsigned Width, Height;
-        ImageFormat_t Format;
-        uint8_t *Data;
-    };
-
-    struct Sound_t
-    {
-        unsigned Channels;
-        unsigned SamplingRate;
-        unsigned BitDepth;
-        unsigned Duration;
-        uint8_t *Data;
-    };
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
+struct Sound_t
+{
+    unsigned Channels;
+    unsigned SamplingRate;
+    unsigned BitDepth;
+    unsigned Duration;
+    uint8_t *Data;
+};
 
 #endif

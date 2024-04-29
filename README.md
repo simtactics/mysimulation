@@ -20,7 +20,6 @@ Will this succeed? *I have no idea*. I'm not much of a game developer, but that 
 
 - The Sims Online
 - [Zig](https://ziglang.org/) 0.11 or newer
-- OpenGL
 
 ## Getting Started
 
