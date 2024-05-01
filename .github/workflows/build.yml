@@ -21,19 +21,19 @@ jobs:
         run: zig build
       - name: Test
         run: zig build test
-  ubuntu-build:
-    timeout-minutes: 15
-    continue-on-error: true
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: goto-bus-stop/setup-zig@v2
-      - name: Install OpenGL
-        run: apt-get libglu1-mesa-dev freeglut3-dev mesa-common-dev
-      - name: Build
-        run: zig build
-      - name: Test
-        run: zig build test
+  # ubuntu-build:
+  #   timeout-minutes: 15
+  #   continue-on-error: true
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: goto-bus-stop/setup-zig@v2
+  #     - name: Install OpenGL
+  #       run: apt-get libglu1-mesa-dev freeglut3-dev mesa-common-dev
+  #     - name: Build
+  #       run: zig build
+  #     - name: Test
+  #       run: zig build test
   lint:
     needs: build
     timeout-minutes: 15

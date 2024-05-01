@@ -1,0 +1,290 @@
+﻿{
+  "changes": [
+    {
+      "id": "585866d1-2330-4af2-bdd6-ff792e782d91",
+      "script": "fso_db_changes.sql",
+      "idempotent": false
+    },
+    {
+      "id": "9a48f9fc-5950-4348-9ccf-318a263be4eb",
+      "script": "fso_users.sql",
+      "idempotent": false
+    },
+    {
+      "id": "9e2e3527-1209-43b5-a579-b085d8965265",
+      "script": "fso_auth_tickets.sql",
+      "idempotent": false
+    },
+    {
+      "id": "def48038-d0d6-4b10-a129-0b9c736e4d35",
+      "script": "fso_shards.sql",
+      "idempotent": false
+    },
+    {
+      "id": "bec36bbc-1774-44cb-a7c5-03f4a00e801c",
+      "script": "fso_avatars.sql",
+      "idempotent": false
+    },
+    {
+      "id": "52795d47-a25e-418f-a618-fb89300aab01",
+      "script": "fso_lots.sql",
+      "idempotent": false
+    },
+    {
+      "id": "52795d47-a25e-418f-a618-fb89300aab02",
+      "script": "fso_objects.sql",
+      "idempotent": false
+    },
+    {
+      "id": "9879997a-4b16-4733-aff4-d0178ce2afa5",
+      "script": "fso_transactions.sql",
+      "idempotent": false
+    },
+    {
+      "id": "d19d4e3f-4177-43f7-b837-db61bdaf17cc",
+      "script": "changes/0001_3_max_avatars.sql",
+      "idempotent": false,
+      "requires": [
+        "bec36bbc-1774-44cb-a7c5-03f4a00e801c"
+      ]
+    },
+    {
+      "id": "58e03211-785c-4d8e-88ae-86d49255503a",
+      "script": "changes/0002_budget_cant_be_negative.sql",
+      "idempotent": false,
+      "requires": [
+        "bec36bbc-1774-44cb-a7c5-03f4a00e801c",
+        "52795d47-a25e-418f-a618-fb89300aab02"
+      ]
+    },
+    {
+      "id": "ce7b44fc-f58a-437e-ad7e-7a8f99c64b5f",
+      "script": "changes/0003_max_roomates.sql",
+      "idempotent": false,
+      "requires": [
+        "52795d47-a25e-418f-a618-fb89300aab01"
+      ]
+    },
+    {
+      "id": "3b7c199c-c369-4f2c-855b-2554e93484bc",
+      "script": "changes/0004_bookmarks.sql",
+      "idempotent": false,
+      "requires": [
+        "bec36bbc-1774-44cb-a7c5-03f4a00e801c"
+      ]
+    },
+    {
+      "id": "94ef1ab2-4cd8-4df3-8c8b-fa7421465a13",
+      "script": "changes/0005_lotadmit_primarykey.sql",
+      "idempotent": false,
+      "requires": [
+        "bec36bbc-1774-44cb-a7c5-03f4a00e801c",
+        "52795d47-a25e-418f-a618-fb89300aab02"
+      ]
+    },
+    {
+      "id": "28b9a5c0-886c-4307-912b-05d4ddd5ba9e",
+      "script": "changes/0006_outfits.sql",
+      "idempotent": false,
+      "requires": [
+        "bec36bbc-1774-44cb-a7c5-03f4a00e801c",
+        "52795d47-a25e-418f-a618-fb89300aab02"
+      ]
+    },
+    {
+      "id": "f9abf5f8-c9d5-4e3a-9c25-21b8ecbf64aa",
+      "script": "changes/0007_fso_lot_visits.sql",
+      "idempotent": false,
+      "requires": [
+        "bec36bbc-1774-44cb-a7c5-03f4a00e801c",
+        "52795d47-a25e-418f-a618-fb89300aab01"
+      ]
+    },
+    {
+      "id": "52182afb-a175-430a-99ad-0c1c4db924ac",
+      "script": "changes/0008_fso_hosts.sql",
+      "idempotent": false,
+      "requires": [
+        "def48038-d0d6-4b10-a129-0b9c736e4d35"
+      ]
+    },
+    {
+      "id": "9e4dc7d8-06b7-4f2f-84a8-4da737072d55",
+      "script": "changes/0009_fso_tasks.sql",
+      "idempotent": false,
+      "requires": [
+        "def48038-d0d6-4b10-a129-0b9c736e4d35"
+      ]
+    },
+    {
+      "id": "2149dfea-970e-4161-901d-b59106fa484f",
+      "script": "changes/0010_fso_top100.sql",
+      "idempotent": false,
+      "requires": [
+        "bec36bbc-1774-44cb-a7c5-03f4a00e801c",
+        "52795d47-a25e-418f-a618-fb89300aab01"
+      ]
+    },
+    {
+      "id": "4838258c-765d-42c9-8439-0505000b372f",
+      "script": "changes/0011_fso_bonus.sql",
+      "idempotent": false,
+      "requires": [
+        "bec36bbc-1774-44cb-a7c5-03f4a00e801c"
+      ]
+    },
+    {
+      "id": "12cd7494-b6a8-4ea7-851f-96f35b22e783",
+      "script": "changes/0012_fso_bans.sql",
+      "idempotent": false,
+      "requires": [
+        "9a48f9fc-5950-4348-9ccf-318a263be4eb"
+      ]
+    },
+    {
+      "id": "64f80154-3d3b-434a-a516-5c385143dbfc",
+      "script": "changes/0013_shard_version.sql",
+      "idempotent": false,
+      "requires": [
+        "def48038-d0d6-4b10-a129-0b9c736e4d35"
+      ]
+    },
+    {
+      "id": "2b01bdbe-0c93-4ee1-afb8-43b6b2db840c",
+      "script": "changes/0014_client_id.sql",
+      "idempotent": false,
+      "requires": [
+        "9a48f9fc-5950-4348-9ccf-318a263be4eb"
+      ]
+    },
+
+    {
+      "id": "17b82f41-7e0a-4ae8-b4ea-db383bced329",
+      "script": "changes/0015_avatar_lot_retire.sql",
+      "idempotent": false,
+      "requires": [
+        "bec36bbc-1774-44cb-a7c5-03f4a00e801c",
+        "3b7c199c-c369-4f2c-855b-2554e93484bc",
+        "52795d47-a25e-418f-a618-fb89300aab01"
+      ]
+    },
+    {
+      "id": "c029ed22-e252-40a4-8950-95ea24da1454",
+      "script": "changes/0016_extra_tasks.sql",
+      "idempotent": false,
+      "requires": [
+        "9e4dc7d8-06b7-4f2f-84a8-4da737072d55"
+      ]
+    },
+    {
+      "id": "780dd09f-325b-4b85-8117-6d089ba88b23",
+      "script": "changes/0017_inbox_events.sql",
+      "idempotent": false,
+      "requires": [
+        "9a48f9fc-5950-4348-9ccf-318a263be4eb",
+        "bec36bbc-1774-44cb-a7c5-03f4a00e801c"
+      ]
+    },
+    {
+      "id": "b21e29a1-8c25-465e-aa43-c7a0d6f44fb8",
+      "script": "changes/0018_dyn_payout_tuning.sql",
+      "idempotent": false,
+      "requires": [
+        "9879997a-4b16-4733-aff4-d0178ce2afa5"
+      ]
+    },
+    {
+      "id": "be3164d6-442e-4eb9-8a37-5cb23cca6b43",
+      "script": "changes/0019_skillmode.sql",
+      "idempotent": false,
+      "requires": [
+        "52795d47-a25e-418f-a618-fb89300aab01"
+      ]
+    },
+    {
+      "id": "49b2791e-7e2d-4219-94d5-000ba8a53c47",
+      "script": "changes/0020_email_confirm.sql",
+      "idempotent": false
+    },
+    {
+      "id": "b390f324-74f1-4a75-992e-e5a81ec3967a",
+      "script": "changes/0021_3dthumb.sql",
+      "idempotent": false,
+      "requires": [
+        "52795d47-a25e-418f-a618-fb89300aab01"
+      ]
+    },
+    {
+      "id": "0c3bb214-d47e-4efb-9d0e-d6127ccbd6ee",
+      "script": "changes/0022_lastlogin.sql",
+      "idempotent": false
+    },
+    {
+      "id": "3b87e93a-5fae-437b-8ba5-1e46ebb4cd15",
+      "script": "changes/0023_neighborhoods.sql",
+      "idempotent": false
+    },
+    {
+      "id": "19dbbb59-378d-4374-9ec6-eed6f7ff815a",
+      "script": "changes/0024_bulletin.sql",
+      "idempotent": false,
+      "requires": [
+        "3b87e93a-5fae-437b-8ba5-1e46ebb4cd15"
+      ]
+    },
+    {
+      "id": "1da5c115-35e3-4117-a2be-b874d0017700",
+      "script": "changes/0025_updates.sql",
+      "idempotent": false
+    },
+    {
+      "id": "64dfb448-1a52-45b7-be2f-056d8ddfd305",
+      "script": "changes/0026_freevote.sql",
+      "idempotent": false,
+      "requires": [
+        "3b87e93a-5fae-437b-8ba5-1e46ebb4cd15"
+      ]
+    },
+    {
+      "id": "2b6e2b3f-81af-4f23-8a69-2428debcfcc5",
+      "script": "changes/0027_tuning_presets.sql",
+      "idempotent": false,
+      "requires": [
+        "b21e29a1-8c25-465e-aa43-c7a0d6f44fb8"
+      ]
+    },
+    {
+      "id": "500dbdd2-7d4d-4d68-a3a6-b6abbbe1f1e8",
+      "script": "changes/0028_upgradelevel.sql",
+      "idempotent": false,
+      "requires": [
+        "52795d47-a25e-418f-a618-fb89300aab02"
+      ]
+    },
+    {
+      "id": "992dfad3-9e31-4db9-8cd7-7d964951e5b5",
+      "script": "changes/0029_generic_participation.sql",
+      "idempotent": false,
+      "requires": [
+        "bec36bbc-1774-44cb-a7c5-03f4a00e801c"
+      ]
+    },
+    {
+      "id": "6768dc20-7731-4bee-85c6-d2cd9b818a03",
+      "script": "changes/0030_tokens.sql",
+      "idempotent": false,
+      "requires": [
+        "52795d47-a25e-418f-a618-fb89300aab02",
+        "500dbdd2-7d4d-4d68-a3a6-b6abbbe1f1e8"
+      ]
+    },
+    {
+      "id": "1235b96c-5a75-2159-b49d-909cb3198cda",
+      "script": "changes/0031_global_cooldowns.sql",
+      "idempotent": false,
+      "requires": [
+        "bec36bbc-1774-44cb-a7c5-03f4a00e801c"
+      ]
+    }
+  ]
+}
