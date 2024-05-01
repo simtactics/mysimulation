@@ -1,52 +1,46 @@
 const std = @import("std");
 const rl = @import("raylib");
 
-pub fn main() !void {
+pub fn main() anyerror!void {
     const screenWidth = 800;
-    const screenHeight = 450;
+    const screenHeight = 600;
 
-    rl.initWindow(screenWidth, screenHeight, "Basic Window");
+    // var timePlayed: f32 = 0.0;
+
+    rl.initWindow(screenWidth, screenHeight, "My Simulation");
     defer rl.closeWindow();
 
-    var ballPos = rl.Vector2.init(screenWidth / 2, screenHeight / 2);
-
     rl.setTargetFPS(60);
+
+    // Media must be loaded after window init
+    // rl.initAudioDevice();
+    // const music = rl.loadMusicStream("resources/LeeRosevere-ThreeThingsYouNeedtoKnowAboutToday.mp3");
+    // defer rl.closeAudioDevice();
+
+    const splash: rl.Texture = rl.Texture.init("resources/tsosplash.png");
+    defer rl.unloadTexture(splash);
 
     while (!rl.windowShouldClose()) {
 
         // Update
-        if (rl.isKeyDown(rl.KeyboardKey.key_right) or
-            rl.isKeyDown(rl.KeyboardKey.key_d))
-        {
-            ballPos.x += 2.0;
-        }
 
-        if (rl.isKeyDown(rl.KeyboardKey.key_left) or
-            rl.isKeyDown(rl.KeyboardKey.key_a))
-        {
-            ballPos.x -= 2.0;
-        }
+        // Load music
+        // ------------------
+        // rl.updateMusicStream(music);
+        // rl.playMusicStream(music);
 
-        if (rl.isKeyDown(rl.KeyboardKey.key_up) or
-            rl.isKeyDown(rl.KeyboardKey.key_w))
-        {
-            ballPos.y -= 2.0;
-        }
-
-        if (rl.isKeyDown(rl.KeyboardKey.key_down) or
-            rl.isKeyDown(rl.KeyboardKey.key_s))
-        {
-            ballPos.y += 2.0;
-        }
+        // timePlayed = rl.getMusicTimePlayed(music) / rl.getMusicTimeLength(music);
+        // if (timePlayed > 1.0) timePlayed = 1.0;
+        // ------------------
 
         // Draw
         rl.beginDrawing();
         defer rl.endDrawing();
 
-        rl.clearBackground(rl.Color.dark_gray);
+        // Splash screen
+        rl.drawTexture(splash, 0, 0, rl.Color.white);
 
-        rl.drawText("Hello, zTSO!", 190, 200, 20, rl.Color.sky_blue);
-
-        rl.drawCircleV(ballPos, 50, rl.Color.maroon);
+        // Loading text
+        rl.drawText("Reticulating splines...", 20, screenHeight - 30, 20, rl.Color.white);
     }
 }
