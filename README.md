@@ -1,14 +1,14 @@
 # zTSO
 
-zTSO is intended to be an experimental reimplementation of The Sims Online written in Zig that directly accesses NioTSO's C-based libraries.
+zTSO (working title) is intended to be an experimental reimplementation of The Sims Online written in Zig. It directly accesses NioTSO's C-based libraries and uses RayLib for the game engine.
 
 ## Motivation
 
-Although an existing and established reimplementation project already exists, it has excess legacy baggage due to it originally being based on .NET Framework 3.5 and XNA, among other things. This has limited its accessibility. Although NioTSO has been abandoned for quite some time now, the foundation remains solid. The client perfectly simulates a loading screen, plus it can render Sims and objects flawlessly.
+Although an established reimplementation project already exists, it has excess legacy baggage due to it originally being based on .NET Framework 3.5 and XNA, causing plenty of performance issues in its current form. Meanwhile, NioTSO's foundation remains solid, even though it was never finished. The client perfectly simulates a loading screen, plus it can render Sims and objects flawlessly.
 
-The problem is C is, well, C. ¯\\\_(ツ)\_/¯ Accessing NioTSO's code in safer languages like Go or Rust has been historically been difficult. While Zig is still in its infancy, it has proven to be perfectly capable of doing this without jumping through hoops. Making it well worth giving it a try.
+The problem is C is, well, C. ¯\\\_(ツ)\_/¯ Accessing NioTSO's code in safer languages like Go or Rust has been historically difficult. While Zig is still in its infancy, the language's FFI is perfectly capable of directly accessing C headers without jumping through hoops. Finally, although Zig itself has not yet hit 1.0, the RayLib game engine is mature. Making it well worth giving it a try.
 
-Will this succeed? *I have no idea*. I'm not much of a game developer, but that hasn't stopped me from dreaming.
+Will this succeed? *I have no idea*. I'm not much of a game developer, but that hasn't stopped me from dreaming. Your help is most welcome.
 
 ## To do
 
@@ -32,7 +32,7 @@ Will this succeed? *I have no idea*. I'm not much of a game developer, but that 
 2. **Navigate to the Repository**:
 
    ```bash
-   cd zsandbox
+   cd ztso
    ```
 
 3. **Run the Examples**: Execute the code examples using the Zig compiler. For instance:

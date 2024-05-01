@@ -26,6 +26,7 @@ pub fn build(b: *std.Build) void {
     exe.linkLibC();
     exe.addIncludePath(.{ .path = "./library/formats" });
     exe.addIncludePath(.{ .path = "./library/libvitaboy" });
+    exe.addIncludePath(.{ .path = "./tools" });
 
     // Modules
     const raylib_dep = b.dependency("raylib-zig", .{
@@ -80,6 +81,7 @@ pub fn build(b: *std.Build) void {
     exe_unit_tests.linkLibC();
     exe_unit_tests.addIncludePath(.{ .path = "./library/formats" });
     exe_unit_tests.addIncludePath(.{ .path = "./library/libvitaboy" });
+    exe_unit_tests.addIncludePath(.{ .path = "./tools" });
 
     const run_exe_unit_tests = b.addRunArtifact(exe_unit_tests);
 
