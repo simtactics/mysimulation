@@ -4,7 +4,7 @@
 <img title="" src="SimTactics.png" width="250" alt=""">
 </p>
 
-zTSO (working title) is intended to be an experimental reimplementation of The Sims Online written in Zig. It directly accesses NioTSO's C-based libraries and uses RayLib for the game engine.
+zTSO is intended to be an experimental reimplementation of The Sims Online written in Zig that's based on RayLab and NioTSO's C libraries. It uses FreeSO's API server for handling backend.
 
 ## Motivation
 

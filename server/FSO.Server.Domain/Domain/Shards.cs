@@ -22,7 +22,8 @@ namespace FSO.Server.Domain
 
         public List<ShardStatusItem> All
         {
-            get{
+            get
+            {
                 return _Shards;
             }
         }
@@ -31,7 +32,7 @@ namespace FSO.Server.Domain
         {
             get
             {
-                throw new Exception("CurrentShard not avaliable in server domain");
+                throw new Exception("CurrentShard not available in server domain");
             }
         }
 
@@ -39,9 +40,12 @@ namespace FSO.Server.Domain
         {
             Task.Delay(60000).ContinueWith(x =>
             {
-                try{
+                try
+                {
                     Poll();
-                }catch(Exception ex){
+                }
+                catch (Exception ex)
+                {
                 }
                 AutoUpdate();
             });
@@ -55,7 +59,7 @@ namespace FSO.Server.Domain
         private void Poll()
         {
             _LastPoll = DateTime.UtcNow;
-            
+
             using (var db = _DbFactory.Get())
             {
                 _Shards = db.Shards.All().Select(x => new ShardStatusItem()
