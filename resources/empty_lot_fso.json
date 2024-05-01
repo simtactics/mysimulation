@@ -7623,8 +7623,8 @@
             },
             "walls": ""
         },
-        "objects": {
-            "object": [
+        "items": {
+            "item": [
                 {
                     "guid": "0x534564D5",
                     "level": "0",
