@@ -5,12 +5,8 @@ pub const Floor = struct {
     value: u8,
 };
 
-pub const Floors = struct {
-    floor: []Floor,
-};
-
 pub const World = struct {
-    floors: Floors,
+    floors: []Floor,
     walls: u8,
 };
 
@@ -23,13 +19,10 @@ pub const Item = struct {
     group: u8,
 };
 
-pub const Items = struct {
-    Item: []Item,
-};
-
 pub const House = struct {
+    version: f32,
     size: u8,
     category: u8,
     world: World,
-    items: Item,
+    items: []Item,
 };

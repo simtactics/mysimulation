@@ -33,13 +33,13 @@ Will this succeed? *I have no idea*. I'm not much of a game developer, but that 
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/tonytins/My Simulation.git
+   git clone https://github.com/tonytins/ztso.git
    ```
 
 2. **Navigate to the Repository**:
 
    ```bash
-   cd My Simulation
+   cd ztso
    ```
 
 3. **Run the Examples**: Execute the code examples using the Zig compiler. For instance:
