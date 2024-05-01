@@ -18,6 +18,8 @@ Will this succeed? *I have no idea*. I'm not much of a game developer, but that 
 
 - [ ] Rewrite header files
 
+- [ ] Communicate with FreeSO-based API server
+
 - [ ] Write Vitaboy renderer in Zig
 
 ## Requirements
