@@ -1,0 +1,26 @@
+Initial Release       : August 31st, 2001 
+Macintosh Filename Fix: October 18th, 2001 (Thanks to Paul Bickford) 
+Sims Resources Release: December 19th, 2001 (No physical changes)
+
+Name: SimFoxes: Tod, Vixen, Todkit, and Vixenkit.
+Creator: Greenmuse (Charles Caffrey) greenmuse@hotmail.com
+Credit: Aladrin Kelahn
+Short Description: Four skin and custom mesh sets for a complete family of anthropomophic fox people.
+
+Installation:
+This set includes adult and child fox-person models of both genders, so you can have a complete family if you so desire. Select dark-skinned male or female, child or adult, and cycle to select the appropriate head-tail and body combination. You'll be able to tell the bodies apart from the normal dark skinned human bodies (chosen because the foxes at least match the lower arm and leg colorations for those models) by checking the upper arms or necks for tawny or orange colorations. For the record, the male is accurately colored. The females a more day-glow orange so it's easier to tell them apart from the males; they aren't as realistic since they have head-hair anyway. The foxes currently come with a limited wardrobe, having one set of 'casual' clothing, pajamas, swimsuits, and of course 'in the fur'. For convienence, each is contained in a separate directory if you want to pick and choose which to install. They share some files (like pajamas, tail skins, and hand skins), so expect some dupe over-writing if you toss the whole family together into the game directory.
+
+Additional Comments:
+The Sims is undoubtedly one of the most popular games for the PC ever, but I'll be honest with you; I was very let down by the choices of creatures you get to populate your world with. 
+
+Humans.  As if we don't get enough of that in our world. 
+
+Maxis had unwittingly (or perhaps purposefully) engineered a disturbingly accurate social parody of our own world, where people engage in endless cycles of making money to buy better consumer goods while having shallow-feeling, mechanical associations with others. The two expansions to date (Livin' Large and House Party) quickly corrected this, making a more entertainingly silly, if less harshly enlightening, game. 
+
+However, neither expansion has done much for the actual diversity of the creatures involved in this setting.  Sure, there's more distracting gadgets, more campy costumes, more zany social options... but it's still the same old people. I'd wanted to correct this since the game came out, but only now has mesh design progressed well enough that I was able to waste 3 solid days modelling and a few more leisurely ones beta-testing these models -- all thanks to Aladrin Kelahn for his programs (SKN->OBJ), tutorials <http://simgallery.terrashare.com/skintutorial.htm>, and the Tigress Mesh/Skins which served as a base for these models (available at his site for The Sims). 
+
+This is my second vulpine oriented model/skin tweak, the first being a trio of fox people for Half-Life <http://www.dragonfeathers.org/~ccaffrey/HL-Foxes.htm>. When I'm not dehumanocentralizing 3d games, I'm the colorist and writer for the online comic Spellshocked <http://www.spellshocked.com/>, which if you've got a keen eye you'll notice the fox people are wearing t-shirts referencing it. Go have a look at at the comic sometime - you might enjoy it. Oh, and that's an Ozy and Millie T-shirt on the boy. The shirt really exists if you want one <http://www.ozyandmillie.org/>.
+
+You are welcome to modify or add to these models, so long as you include this message along with your modifications. Also, please let me know about it at greenmuse@hotmail.com. Updates to SimFoxes likely can be found at the 'official' SimFoxes website <http://www.dragonfeathers.org/~ccaffrey/SimFoxes.html>.
+
+[Official Sim Fox website has moved to:  http://www.spellshocked.com/ccaffrey/SimFoxes.htm ]

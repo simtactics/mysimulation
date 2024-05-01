@@ -1,1 +1,0 @@
-mkdir _deps 2>NUL & mingw32-make -C _deps -f ../update-libraries.mk CMD=1
