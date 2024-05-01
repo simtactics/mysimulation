@@ -36,12 +36,14 @@ pub fn build(b: *std.Build) void {
 
     const raylib = raylib_dep.module("raylib"); // main raylib module
     const raylib_math = raylib_dep.module("raylib-math"); // raymath module
+    // const raylib_gui = raylib_dep.module("raylib-gui"); // raylib gui
     const rlgl = raylib_dep.module("rlgl"); // rlgl module
     const raylib_artifact = raylib_dep.artifact("raylib"); // raylib C library
 
     exe.linkLibrary(raylib_artifact);
     exe.root_module.addImport("raylib", raylib);
     exe.root_module.addImport("raylib-math", raylib_math);
+    // exe.root_module.addImport("raylib-gui", raylib_gui);
     exe.root_module.addImport("rlgl", rlgl);
 
     // This declares intent for the executable to be installed into the
@@ -82,6 +84,11 @@ pub fn build(b: *std.Build) void {
     exe_unit_tests.addIncludePath(.{ .path = "./library/formats" });
     exe_unit_tests.addIncludePath(.{ .path = "./library/libvitaboy" });
     exe_unit_tests.addIncludePath(.{ .path = "./tools" });
+
+    exe_unit_tests.root_module.addImport("raylib", raylib);
+    exe_unit_tests.root_module.addImport("raylib-math", raylib_math);
+    // exe.root_module.addImport("raylib-gui", raylib_gui);
+    exe_unit_tests.root_module.addImport("rlgl", rlgl);
 
     const run_exe_unit_tests = b.addRunArtifact(exe_unit_tests);
 

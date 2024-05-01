@@ -1,10 +1,10 @@
-# zTSO
+# My Simulation
 
 <p align="center">
-<img title="" src="SimTactics.png" width="250" alt=""">
+<img title="" src="resources/logo.png" width="250" alt=""">
 </p>
 
-zTSO is intended to be an experimental reimplementation of The Sims Online written in Zig that's based on RayLab and NioTSO's C libraries. It uses FreeSO's API server for handling backend.
+My Simulation is intended to be an experimental reimplementation of The Sims Online written in Zig that's based on RayLab and NioTSO's C libraries. It uses FreeSO's API server for handling backend.
 
 ## Motivation
 
@@ -25,20 +25,21 @@ Will this succeed? *I have no idea*. I'm not much of a game developer, but that 
 ## Requirements
 
 - The Sims Online
-- [Zig](https://ziglang.org/) 0.11 or newer
+- Client: [Zig](https://ziglang.org/) 0.11 or newer
+- API Server: [.NET 8.0](https://dotnet.microsoft.com/en-us/) or later
 
 ## Getting Started
 
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/tonytins/ztso.git
+   git clone https://github.com/tonytins/My Simulation.git
    ```
 
 2. **Navigate to the Repository**:
 
    ```bash
-   cd ztso
+   cd My Simulation
    ```
 
 3. **Run the Examples**: Execute the code examples using the Zig compiler. For instance:
