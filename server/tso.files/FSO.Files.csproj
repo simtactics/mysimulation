@@ -1,22 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{18583453-A970-4AC5-83B1-2D6BFDF94C24}</ProjectGuid>
+    <TargetFramework>net45</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FSO.Files</RootNamespace>
-    <AssemblyName>FSO.Files</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -32,196 +17,40 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ServerRelease|x86'">
     <OutputPath>bin\x86\ServerRelease\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ServerRelease|AnyCPU'">
     <OutputPath>bin\ServerRelease\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="bz2portable, Version=0.86.0.518, Culture=neutral, PublicKeyToken=43072770b20d93eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\bz2portable.1.0.1\lib\bz2portable.dll</HintPath>
-    </Reference>
-    <Reference Include="deltaq, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4ec66318c45104d7, processorArchitecture=MSIL">
-      <HintPath>..\packages\deltaq.1.0.1\lib\deltaq.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MonoGame.Framework.Portable.3.6.0.1625\lib\portable-net45+win8+wpa81\MonoGame.Framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="xxHashSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\xxHashSharp.1.0.0\lib\net45\xxHashSharp.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Formats\IFF\Chunks\ARRY.cs" />
-    <Compile Include="Formats\IFF\Chunks\FCNS.cs" />
-    <Compile Include="Formats\IFF\Chunks\HOUS.cs" />
-    <Compile Include="Formats\IFF\Chunks\PART.cs" />
-    <Compile Include="Formats\IFF\Chunks\PNG.cs" />
-    <Compile Include="Formats\IFF\Chunks\CARR.cs" />
-    <Compile Include="Formats\IFF\Chunks\FAMI.cs" />
-    <Compile Include="Formats\IFF\Chunks\FAMs.cs" />
-    <Compile Include="Formats\IFF\Chunks\FSOM.cs" />
-    <Compile Include="Formats\IFF\Chunks\FSOR.cs" />
-    <Compile Include="Formats\IFF\Chunks\FSOV.cs" />
-    <Compile Include="Formats\IFF\Chunks\IffFieldEncode.cs" />
-    <Compile Include="Formats\IFF\Chunks\MTEX.cs" />
-    <Compile Include="Formats\IFF\Chunks\NBRS.cs" />
-    <Compile Include="Formats\IFF\Chunks\NGBH.cs" />
-    <Compile Include="Formats\IFF\Chunks\OBJM.cs" />
-    <Compile Include="Formats\IFF\Chunks\OBJT.cs" />
-    <Compile Include="Formats\IFF\Chunks\SIMI.cs" />
-    <Compile Include="Formats\IFF\Chunks\THMB.cs" />
-    <Compile Include="Formats\IFF\Chunks\TRCN.cs" />
-    <Compile Include="Formats\IFF\Chunks\TREE.cs" />
-    <Compile Include="Formats\IFF\Chunks\TTAT.cs" />
-    <Compile Include="Formats\IFF\Chunks\WALm.cs" />
-    <Compile Include="Formats\tsodata\BulletinItem.cs" />
-    <Compile Include="Formats\tsodata\TSODataDefinition.cs" />
-    <Compile Include="Formats\IFF\ChunkRuntimeInfo.cs" />
-    <Compile Include="Formats\IFF\Chunks\PIFF.cs" />
-    <Compile Include="Formats\IFF\Chunks\SPR2FrameEncoder.cs" />
-    <Compile Include="Formats\IFF\Chunks\TPRP.cs" />
-    <Compile Include="Formats\IFF\IffRuntimeInfo.cs" />
-    <Compile Include="Formats\IFF\PIFFRegistry.cs" />
-    <Compile Include="Formats\PiffEncoder.cs" />
-    <Compile Include="Formats\tsodata\MessageItem.cs" />
-    <Compile Include="Formats\tsodata\TSOp.cs" />
-    <Compile Include="HIT\Patch.cs" />
-    <Compile Include="ImageLoader.cs" />
-    <Compile Include="FAR1\FAR1Archive.cs" />
-    <Compile Include="Formats\DBPF\DBPFEntry.cs" />
-    <Compile Include="Formats\DBPF\DBPFFile.cs" />
-    <Compile Include="Formats\IFF\AbstractIffChunk.cs" />
-    <Compile Include="Formats\IFF\Chunks\BCON.cs" />
-    <Compile Include="Formats\IFF\Chunks\BHAV.cs" />
-    <Compile Include="Formats\IFF\Chunks\BMP.cs" />
-    <Compile Include="Formats\IFF\Chunks\FWAV.cs" />
-    <Compile Include="Formats\IFF\Chunks\GLOB.cs" />
-    <Compile Include="Formats\IFF\Chunks\TTAs.cs" />
-    <Compile Include="Formats\IFF\Chunks\OBJf.cs" />
-    <Compile Include="Formats\IFF\Chunks\CTSS.cs" />
-    <Compile Include="Formats\IFF\Chunks\DGRP.cs" />
-    <Compile Include="Formats\IFF\Chunks\OBJD.cs" />
-    <Compile Include="Formats\IFF\Chunks\PALT.cs" />
-    <Compile Include="Formats\IFF\Chunks\SLOT.cs" />
-    <Compile Include="Formats\IFF\Chunks\SPR.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Formats\IFF\Chunks\SPR2.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Formats\IFF\Chunks\STR.cs" />
-    <Compile Include="Formats\IFF\Chunks\TTAB.cs" />
-    <Compile Include="Formats\IFF\IffFile.cs" />
-    <Compile Include="Formats\OTF\OTFFile.cs" />
-    <Compile Include="HIT\EVT.cs" />
-    <Compile Include="HIT\FSC.cs" />
-    <Compile Include="HIT\HITConstants.cs" />
-    <Compile Include="HIT\HITFile.cs" />
-    <Compile Include="HIT\Hitlist.cs" />
-    <Compile Include="HIT\Hot.cs" />
-    <Compile Include="HIT\HSM.cs" />
-    <Compile Include="HIT\TLO.cs" />
-    <Compile Include="HIT\Track.cs" />
-    <Compile Include="Endian.cs" />
-    <Compile Include="FAR1\FarEntry.cs" />
-    <Compile Include="FAR3\Decompresser.cs" />
-    <Compile Include="FAR3\FAR3Archive.cs" />
-    <Compile Include="FAR3\Far3Entry.cs" />
-    <Compile Include="FAR3\FAR3Exception.cs" />
-    <Compile Include="ImageLoaderHelpers.cs" />
-    <Compile Include="IniFile.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RC\DGRP3DGeometry.cs" />
-    <Compile Include="RC\DGRP3DMesh.cs" />
-    <Compile Include="RC\DGRP3DVert.cs" />
-    <Compile Include="RC\DGRPRCParams.cs" />
-    <Compile Include="RC\FSOF.cs" />
-    <Compile Include="RC\NBHm.cs" />
-    <Compile Include="RC\OBJReader.cs" />
-    <Compile Include="RC\Utils\DepthTreatment.cs" />
-    <Compile Include="Tuning.cs" />
-    <Compile Include="Utils\BCFReadProxy.cs" />
-    <Compile Include="Utils\CurLoader.cs" />
-    <Compile Include="Utils\DiffGenerator.cs" />
-    <Compile Include="Utils\IFileInfoUtilizer.cs" />
-    <Compile Include="Utils\IoWriter.cs" />
-    <Compile Include="Utils\IoBuffer.cs" />
-    <Compile Include="Utils\ITextureProvider.cs" />
-    <Compile Include="Utils\IWorldTextureProvider.cs" />
-    <Compile Include="Utils\WorldTexture.cs" />
-    <Compile Include="UTK\UTKFile2.cs" />
-    <Compile Include="XA\XAFile.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
@@ -245,21 +74,16 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Other\libs\TargaImagePCL\TargaImagePCL.csproj">
-      <Project>{d8232422-9d79-4200-a981-eb70ed82ccf3}</Project>
-      <Name>TargaImagePCL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\tso.common\FSO.Common.csproj">
-      <Project>{c42962a1-8796-4f47-9dcd-79ed5904d8ca}</Project>
-      <Name>FSO.Common</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\Other\libs\TargaImagePCL\TargaImagePCL.csproj" />
+    <ProjectReference Include="..\tso.common\FSO.Common.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <PackageReference Include="bz2portable" Version="1.0.1" />
+    <PackageReference Include="deltaq" Version="1.0.1" />
+    <PackageReference Include="MonoGame.Framework.Portable" Version="3.6.0.1625" />
+    <PackageReference Include="xxHashSharp" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Formats\IFF\Chunks\ISPR.cs" />
+  </ItemGroup>
 </Project>

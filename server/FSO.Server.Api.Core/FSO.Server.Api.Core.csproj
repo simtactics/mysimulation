@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="MailTemplates\MailBan.html" />
     <None Remove="MailTemplates\MailBase.html" />
@@ -15,7 +13,6 @@
     <None Remove="MailTemplates\MailRegistrationToken.html" />
     <None Remove="MailTemplates\MailUnban.html" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="MailTemplates\MailBan.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -39,21 +36,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="AWSSDK.Core" Version="3.3.103.48" />
     <PackageReference Include="AWSSDK.S3" Version="3.3.104.36" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.7" />
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
     <PackageReference Include="Octokit" Version="0.36.0" />
-    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\FSO.Server.Common\FSO.Server.Common.csproj" />
     <ProjectReference Include="..\FSO.Server.Database\FSO.Server.Database.csproj" />
@@ -62,5 +54,4 @@
     <ProjectReference Include="..\tso.common\FSO.Common.csproj" />
     <ProjectReference Include="..\tso.files\FSO.Files.csproj" />
   </ItemGroup>
-
 </Project>
