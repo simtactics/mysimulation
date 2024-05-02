@@ -26,7 +26,7 @@
 #include <string.h>
 
 #ifdef WIN32
-#define fhexport __declspec(dllexport);
+    #define fhexport __declspec(dllexport);
 #else
 #define fhexport __attribute__((visibility("default")));
 #endif
@@ -70,5 +70,21 @@ struct Sound_t
     unsigned Duration;
     uint8_t *Data;
 };
+
+namespace File {
+    inline size_t GetFileSize(FILE * hFile){
+        fseek(hFile, 0, SEEK_END);
+        size_t FileSize = ftell(hFile);
+        fseek(hFile, 0, SEEK_SET);
+        return FileSize;
+    }
+
+    extern int Error;
+    extern size_t FileSize;
+
+    fhexport uint8_t * ReadFile(const char * Filename);
+    fhexport Image_t * ReadImageFile(const char * Filename);
+    fhexport Sound_t * ReadSoundFile(const char * Filename);
+}
 
 #endif

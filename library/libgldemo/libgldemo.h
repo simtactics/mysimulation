@@ -16,9 +16,16 @@
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
+#ifdef _WIN32
+#include <windows.h>
+#else
+#define APIENTRY
+#endif
+
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GL/glext.h>
+#include <stdint.h>
+//#include <GL/glext.h>
 
 typedef struct {
     const char *__restrict Title;

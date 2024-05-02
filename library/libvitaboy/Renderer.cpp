@@ -48,8 +48,8 @@
 */
 
 #include <math.h>
-#include <FileHandler.hpp>
-#include <libgldemo.h>
+#include <FileHandler.h>
+#include "../libgldemo/libgldemo.h"
 #include "libvitaboy.hpp"
 
 static float zoom = -10;
@@ -122,7 +122,7 @@ static int LoadTextures()
         }
 
         glBindTexture(GL_TEXTURE_2D, texture[i]);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, Image->Width, Image->Height, 0, GL_BGR, GL_UNSIGNED_BYTE, Image->Data);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, Image->Width, Image->Height, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, Image->Data);
         free(Image->Data);
         free(Image);
 
@@ -144,7 +144,7 @@ static int InitGL()
     glClearDepth(1.0f);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-    glEnable(GL_RESCALE_NORMAL);
+    glEnable(GL_NORMALIZE);
     glDisable(GL_BLEND);
     glDepthFunc(GL_LEQUAL);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
