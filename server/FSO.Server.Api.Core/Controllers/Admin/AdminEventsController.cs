@@ -25,17 +25,15 @@ namespace FSO.Server.Api.Core.Controllers.Admin
             if (order == null) order = "start_day";
             var api = Api.INSTANCE;
             api.DemandModerator(Request);
-            using (var da = api.DAFactory.Get())
+            using var da = api.DAFactory.Get();
+
+            if (limit > 100)
             {
-
-                if (limit > 100)
-                {
-                    limit = 100;
-                }
-
-                var result = da.Events.All((int)offset, (int)limit, order);
-                return ApiResponse.PagedList<DbEvent>(Request, HttpStatusCode.OK, result);
+                limit = 100;
             }
+
+            var result = da.Events.All((int)offset, (int)limit, order);
+            return ApiResponse.PagedList<DbEvent>(Request, HttpStatusCode.OK, result);
         }
 
         [HttpGet("presets")]
@@ -50,7 +48,7 @@ namespace FSO.Server.Api.Core.Controllers.Admin
         }
 
         [HttpPost("presets")]
-        public IActionResult CreatePreset([FromBody]PresetCreateModel request)
+        public IActionResult CreatePreset([FromBody] PresetCreateModel request)
         {
             var api = Api.INSTANCE;
             api.DemandModerator(Request);
@@ -104,7 +102,7 @@ namespace FSO.Server.Api.Core.Controllers.Admin
 
         // POST admin/updates (start update generation)
         [HttpPost]
-        public IActionResult Post([FromBody]EventCreateModel request)
+        public IActionResult Post([FromBody] EventCreateModel request)
         {
             var api = Api.INSTANCE;
             api.DemandModerator(Request);

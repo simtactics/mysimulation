@@ -25,21 +25,25 @@ Will this succeed? *I have no idea*. I'm not much of a game developer, but that 
 ## Requirements
 
 - The Sims Online
-- Client: [Zig](https://ziglang.org/) 0.11 or newer
-- API Server: [.NET 8.0](https://dotnet.microsoft.com/en-us/) or later
+- Client
+	- OpenGL
+	- [Zig](https://ziglang.org/) 0.11 or newer
+- API Server
+	- [.NET](https://dotnet.microsoft.com/en-us/) 8.0 or later
+	- [Mockoon](https://mockoon.com/) for mock APIs
 
 ## Getting Started
 
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/tonytins/ztso.git
+   git clone https://github.com/tonytins/mysimulation.git
    ```
 
 2. **Navigate to the Repository**:
 
    ```bash
-   cd ztso
+   cd mysimulation
    ```
 
 3. **Run the Examples**: Execute the code examples using the Zig compiler. For instance:

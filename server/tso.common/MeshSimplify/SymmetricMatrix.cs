@@ -2,8 +2,9 @@
 {
     public class SymmetricMatrix
     {
-        public SymmetricMatrix(double c) {
-            for (int i=0; i<10; i++) m[i] = c;
+        public SymmetricMatrix(double c)
+        {
+            for (int i = 0; i < 10; i++) m[i] = c;
         }
 
 
@@ -13,9 +14,9 @@
                                                                    double m44)
         {
             m[0] = m11; m[1] = m12; m[2] = m13; m[3] = m14;
-                        m[4] = m22; m[5] = m23; m[6] = m24;
-                                    m[7] = m33; m[8] = m34;
-                                                m[9] = m44;
+            m[4] = m22; m[5] = m23; m[6] = m24;
+            m[7] = m33; m[8] = m34;
+            m[9] = m44;
         }
 
         // Make plane
@@ -28,7 +29,8 @@
             m[9] = d * d;
         }
 
-        public double this[int c] {
+        public double this[int c]
+        {
             get { return m[c]; }
             set { m[c] = value; }
         }

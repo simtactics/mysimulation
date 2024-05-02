@@ -1,0 +1,146 @@
+{
+  "uuid": "2addc65d-3a58-4d34-8aab-8376800669de",
+  "lastMigration": 32,
+  "name": "FreeSO API",
+  "endpointPrefix": "api",
+  "latency": 0,
+  "port": 3001,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "bd0b74a7-5b82-4934-bd6f-13b69df8b7f0",
+      "type": "http",
+      "documentation": "Returns every reserved lot, its name, online lots, and all online lot's populations.",
+      "method": "get",
+      "endpoint": "city/1",
+      "responses": [
+        {
+          "uuid": "d8127941-3c34-4c78-9737-572ccfa112fa",
+          "body": "{\n  \"names\": [\n    \"Town Hall\",\n    \"M.O.M.I. Headquarters\"\n  ],\n  \"reservedLots\": [\n    13828397,\n    13828398\n  ],\n  \"activeLots\": [\n    13828397\n  ],\n  \"onlineCount\": [\n    10\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "f3fb2f37-5402-4547-8781-8791a8795997",
+      "type": "http",
+      "documentation": "OAuth Reponse",
+      "method": "get",
+      "endpoint": "oauth/token",
+      "responses": [
+        {
+          "uuid": "dad8bcb1-bf62-4eaf-9ad7-53ec5bf0021d",
+          "body": "{\n  \"access_token\": \"ROoPRE007bqYBABGylS3TJREv8kOh49E6z7Qa2wXBryCxcRn8NFWrV48SNTKVL1K7wkwAEsqeKMHoIi6F4WOkZYUiKZ8ar0II3JqOZB9db3rgfHpZELcYvsCNM0CBy4pIaofhnoj2qI4JVy7mq27i9O0ZiIMLB9JLksxsmMAMefm8482VU5RjhDQRX16jFNjoEK8Rtb3rBJq340LCeAA9XOgnisG4iwjeaK1zjgU93i8VCe1GTpCowS5C9UX2\",\n  \"expires_in\": 3600\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OAuth",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "eb27265e-acbf-4d0e-84cc-b1ffc573bc02",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "city/1/avatars/456",
+      "responses": [
+        {
+          "uuid": "30119a6a-e6ae-4afc-8e54-d2b42dbf4da8",
+          "body": "{\n  \"avatar_id\": 456,\n  \"shard_id\": 1,\n  \"name\": \"Tony Bark\",\n  \"gender\": 0,\n  \"date\": 1486420929,\n  \"description\": \"Arf! That's me. Tony Bark.\",\n  \"current_job\": 5,\n  \"mayor_nhood\": null\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "bd0b74a7-5b82-4934-bd6f-13b69df8b7f0"
+    },
+    {
+      "type": "route",
+      "uuid": "f3fb2f37-5402-4547-8781-8791a8795997"
+    },
+    {
+      "type": "route",
+      "uuid": "eb27265e-acbf-4d0e-84cc-b1ffc573bc02"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}

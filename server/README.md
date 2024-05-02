@@ -8,6 +8,6 @@ As the API server is already complete, zTSO's client and server will have separa
 
 ## Support Cycle
 
-| Version | Release Date | Type | End of Support |
-| ------- | ------------ | ---- | -------------- |
-| 0.88    | March 31     | LTS  | TBA            |
+| Version | Release Date | Type | End of Support     |
+| ------- | ------------ | ---- | ------------------ |
+| 0.88    | March 31     | LTS  | January 10th, 2027 |
