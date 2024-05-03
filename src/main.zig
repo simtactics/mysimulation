@@ -6,7 +6,7 @@ const MAX_INPUT_CHARS = 9;
 const GameScreen = enum {
     login,
     cas,
-    lot,
+    world,
 };
 
 // Still in the proof of concept phase, don't midn the mess
@@ -21,6 +21,14 @@ pub fn main() anyerror!void {
 
     var current_screen: GameScreen = .login;
     var frame_counter: i32 = 0;
+
+    var camera = rl.Camera3D{
+        .position = rl.Vector3.init(5.0, 4.0, 5.0),
+        .target = rl.Vector3.init(0, 2.0, 0),
+        .up = rl.Vector3.init(0, 1.0, 0),
+        .fovy = 60,
+        .projection = rl.CameraProjection.camera_perspective,
+    };
 
     // var textBox = rl.Rectangle.init(screen_width / 2.0 - 100, 180, 50);
     // var mouseOnText = false;
@@ -47,11 +55,13 @@ pub fn main() anyerror!void {
             .login => {
                 frame_counter += 1;
 
-                if (frame_counter > 120) current_screen = .cas;
+                if (frame_counter > 120) current_screen = .world;
             },
             //
             .cas => {},
-            .lot => {},
+            .world => {
+                camera.update(rl.CameraMode.camera_third_person);
+            },
         }
         // ------------------
 
@@ -68,11 +78,17 @@ pub fn main() anyerror!void {
                 // Loading text
                 rl.drawText("Reticulating splines...", 20, screen_height - 30, 20, rl.Color.white);
             },
-            .cas => {
-                rl.clearBackground(rl.Color.black);
-            },
+            .cas => {},
             //
-            .lot => {},
+            .world => {
+                rl.clearBackground(rl.Color.ray_white);
+
+                camera.begin();
+                defer camera.end();
+                rl.drawGrid(64, 1.0);
+            },
         }
+
+        rl.drawFPS(10, 10);
     }
 }
