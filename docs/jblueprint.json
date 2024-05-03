@@ -1,0 +1,151 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "JBlueprint Schema",
+    "description": "Schema for JSON Blueprint (JBlueprint) format used in My Simulation.",
+    "type": "object",
+    "properties": {
+        "house": {
+            "type": "object",
+            "properties": {
+                "version": {
+                    "type": "number"
+                },
+                "size": {
+                    "type": "number"
+                },
+                "category": {
+                    "type": "number"
+                },
+                "world": {
+                    "type": "object",
+                    "properties": {
+                        "floors": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "level": {
+                                        "type": "number"
+                                    },
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "value": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "level",
+                                    "x",
+                                    "y",
+                                    "value"
+                                ]
+                            }
+                        },
+                        "walls": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "level": {
+                                        "type": "number"
+                                    },
+                                    "x": {
+                                        "type": "number"
+                                    },
+                                    "y": {
+                                        "type": "number"
+                                    },
+                                    "tls": {
+                                        "type": "number"
+                                    },
+                                    "trs": {
+                                        "type": "number"
+                                    },
+                                    "tlp": {
+                                        "type": "number"
+                                    },
+                                    "brp": {
+                                        "type": "number"
+                                    },
+                                    "blp": {
+                                        "type": "number"
+                                    },
+                                    "segments": {
+                                        "type": "string"
+                                    },
+                                    "placement": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "level",
+                                    "x",
+                                    "y",
+                                    "tls",
+                                    "trs",
+                                    "tlp",
+                                    "brp",
+                                    "blp",
+                                    "segment",
+                                    "placement"
+                                ]
+                            }
+                        }
+                    },
+                    "required": [
+                        "floors",
+                        "walls"
+                    ]
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "guid": {
+                                "type": "number"
+                            },
+                            "level": {
+                                "type": "number"
+                            },
+                            "x": {
+                                "type": "number"
+                            },
+                            "y": {
+                                "type": "number"
+                            },
+                            "dir": {
+                                "type": "number"
+                            },
+                            "group": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "guid",
+                            "level",
+                            "x",
+                            "y",
+                            "dir",
+                            "group"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "version",
+                "size",
+                "category",
+                "world",
+                "items"
+            ]
+        }
+    },
+    "required": [
+        "house"
+    ]
+}
