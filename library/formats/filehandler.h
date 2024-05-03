@@ -82,9 +82,9 @@ namespace File {
     extern int Error;
     extern size_t FileSize;
 
-    fhexport uint8_t * ReadFile(const char * Filename);
-    fhexport Image_t * ReadImageFile(const char * Filename);
-    fhexport Sound_t * ReadSoundFile(const char * Filename);
+    uint8_t * ReadFile(const char * Filename);
+    Image_t * ReadImageFile(const char * Filename);
+    Sound_t * ReadSoundFile(const char * Filename);
 }
 
 #endif

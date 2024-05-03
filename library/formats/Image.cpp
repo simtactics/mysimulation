@@ -17,8 +17,8 @@
 */
 
 #include "FileHandler.h"
-//#include <jpeglib.h>
-//#include <jerror.h>
+#include <jpeglib.h>
+#include <jerror.h>
 #include <png.h>
 #include <setjmp.h> //Used for libpng
 #include "bmp/read_bmp.h"
@@ -120,7 +120,6 @@ static uint8_t * ReadBMP(Image_t * Image, const uint8_t * InData, size_t FileSiz
 
 
 // libjpeg-turbo v6 doesn't support jpeg_mem_src, so we have to implement it here
-/*
 static void term_source(j_decompress_ptr){}
 static int fill_mem_input_buffer(j_decompress_ptr cinfo){
     ERREXIT(cinfo, JERR_FILE_READ);
@@ -137,10 +136,8 @@ static void skip_input_data(j_decompress_ptr cinfo, long bytes)
     src->next_input_byte += bytes;
     src->bytes_in_buffer -= bytes;
 }
-*/
 
 static uint8_t * ReadJPG(Image_t * Image, const uint8_t * InData, size_t FileSize){
-    /*
     //Initialize
     jpeg_decompress_struct cinfo;
     jpeg_error_mgr jerr;
@@ -201,8 +198,6 @@ static uint8_t * ReadJPG(Image_t * Image, const uint8_t * InData, size_t FileSiz
         Image->Data = OutData;
     }
     return OutData;
-    */
-   return NULL;
 }
 
 struct pngdata_t {

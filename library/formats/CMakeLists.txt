@@ -29,10 +29,13 @@ if(WIN32)
 endif()
 
 #include_directories(${FILEHANDLER_INCLUDE} ${LIBMPG123_INCLUDE} ${LIBJPEGTURBO_INCLUDE} ${LIBPNG_INCLUDE})
-include_directories(${FILEHANDLER_INCLUDE} ${LIBPNG_INCLUDE})
+include_directories(${FILEHANDLER_INCLUDE} ${LIBJPEGTURBO_INCLUDE} ${LIBPNG_INCLUDE})
+#TODO-JIP: hack, include vars are not set properly
+include_directories( "../_deps/libjpeg-turbo" )
 
 set(FILEHANDLER_LIB)
 if(BUILD_SHARED_LIBS)
+    # BUILD_SHARED_LIBS
     add_library(FileHandler_shared SHARED ${FILEHANDLER_SOURCES})
     if(WIN32)
         set_target_properties(FileHandler_shared PROPERTIES OUTPUT_NAME "FileHandler${FILEHANDLER_SERIES}")
@@ -57,6 +60,4 @@ else()
     target_link_libraries(FileHandler_static far_static iff_static ${LIBJPEG_LINK} ${LIBMPG123_LINK} ${LIBPNG_LINK} ${ZLIB_LINK})
 
     set(FILEHANDLER_LIB FileHandler_static)
-endif() # BUILD_SHARED_LIBS
-
-target_link_libraries(${FILEHANDLER_LIB} far_static iff_static ${LIBJPEG_LINK} ${LIBMPG123_LINK} ${LIBPNG_LINK} ${ZLIB_LINK})
+endif()
