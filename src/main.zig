@@ -3,17 +3,25 @@ const rl = @import("raylib");
 
 const MAX_INPUT_CHARS = 9;
 
+const GameScreen = enum {
+    logo,
+    gameplay,
+};
+
 // Still in the proof of concept phase, don't midn the mess
 pub fn main() anyerror!void {
-    const screenWidth = 800;
-    const screenHeight = 600;
+    const screen_width = 800;
+    const screen_height = 600;
 
     // var timePlayed: f32 = 0.0;
 
-    rl.initWindow(screenWidth, screenHeight, "My Simulation");
+    rl.initWindow(screen_width, screen_height, "My Simulation");
     defer rl.closeWindow();
 
-    // var textBox = rl.Rectangle.init(screenWidth / 2.0 - 100, 180, 50);
+    var current_screen: GameScreen = .logo;
+    var frame_counter: i32 = 0;
+
+    // var textBox = rl.Rectangle.init(screen_width / 2.0 - 100, 180, 50);
     // var mouseOnText = false;
     // var letterCount = 0;
 
@@ -31,25 +39,33 @@ pub fn main() anyerror!void {
     while (!rl.windowShouldClose()) {
 
         // Update
-
-        // Load music
         // ------------------
-        // rl.updateMusicStream(music);
-        // rl.playMusicStream(music);
+        switch (current_screen) {
+            .logo => {
+                frame_counter += 1;
 
-        // timePlayed = rl.getMusicTimePlayed(music) / rl.getMusicTimeLength(music);
-        // if (timePlayed > 1.0) timePlayed = 1.0;
+                if (frame_counter > 120) current_screen = .gameplay;
+            },
+            .gameplay => {},
+        }
         // ------------------
 
         // Draw
         rl.beginDrawing();
         defer rl.endDrawing();
 
-        // Splash screen
-        rl.drawTexture(splash, 0, 0, rl.Color.white);
-        rl.drawTexture(logo, screenWidth / 2.0 - 240, 30, rl.Color.white);
+        switch (current_screen) {
+            .logo => {
+                // Splash screen
+                rl.drawTexture(splash, 0, 0, rl.Color.white);
+                rl.drawTexture(logo, screen_width / 2.0 - 240, 30, rl.Color.white);
 
-        // Loading text
-        rl.drawText("Reticulating splines...", 20, screenHeight - 30, 20, rl.Color.white);
+                // Loading text
+                rl.drawText("Reticulating splines...", 20, screen_height - 30, 20, rl.Color.white);
+            },
+            .gameplay => {
+                rl.clearBackground(rl.Color.black);
+            },
+        }
     }
 }
