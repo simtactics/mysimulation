@@ -50,7 +50,8 @@ obj/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -523,3 +524,6 @@ FodyWeavers.xsd
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
 *.wasm*
+
+### A place for local files that is within the repo
+.local 
