@@ -4,8 +4,9 @@ const rl = @import("raylib");
 const MAX_INPUT_CHARS = 9;
 
 const GameScreen = enum {
-    logo,
-    gameplay,
+    login,
+    cas,
+    lot,
 };
 
 // Still in the proof of concept phase, don't midn the mess
@@ -18,7 +19,7 @@ pub fn main() anyerror!void {
     rl.initWindow(screen_width, screen_height, "My Simulation");
     defer rl.closeWindow();
 
-    var current_screen: GameScreen = .logo;
+    var current_screen: GameScreen = .login;
     var frame_counter: i32 = 0;
 
     // var textBox = rl.Rectangle.init(screen_width / 2.0 - 100, 180, 50);
@@ -41,12 +42,16 @@ pub fn main() anyerror!void {
         // Update
         // ------------------
         switch (current_screen) {
-            .logo => {
+            // Skip straight to CAS (Create-A-Sim) until city server is complete
+            // TODO: Create login window with username, password, and server option
+            .login => {
                 frame_counter += 1;
 
-                if (frame_counter > 120) current_screen = .gameplay;
+                if (frame_counter > 120) current_screen = .cas;
             },
-            .gameplay => {},
+            //
+            .cas => {},
+            .lot => {},
         }
         // ------------------
 
@@ -55,7 +60,7 @@ pub fn main() anyerror!void {
         defer rl.endDrawing();
 
         switch (current_screen) {
-            .logo => {
+            .login => {
                 // Splash screen
                 rl.drawTexture(splash, 0, 0, rl.Color.white);
                 rl.drawTexture(logo, screen_width / 2.0 - 240, 30, rl.Color.white);
@@ -63,9 +68,11 @@ pub fn main() anyerror!void {
                 // Loading text
                 rl.drawText("Reticulating splines...", 20, screen_height - 30, 20, rl.Color.white);
             },
-            .gameplay => {
+            .cas => {
                 rl.clearBackground(rl.Color.black);
             },
+            //
+            .lot => {},
         }
     }
 }
