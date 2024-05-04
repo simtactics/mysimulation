@@ -1,7 +1,6 @@
 const std = @import("std");
 const rl = @import("raylib");
-
-const MAX_INPUT_CHARS = 9;
+const world = @import("world.zig");
 
 const GameScreen = enum {
     login,
@@ -9,12 +8,10 @@ const GameScreen = enum {
     world,
 };
 
-// Still in the proof of concept phase, don't midn the mess
+// Still in the proof of concept phase, don't mind the mess
 pub fn main() anyerror!void {
     const screen_width = 800;
     const screen_height = 600;
-
-    // var timePlayed: f32 = 0.0;
 
     rl.initWindow(screen_width, screen_height, "My Simulation");
     defer rl.closeWindow();
@@ -23,12 +20,14 @@ pub fn main() anyerror!void {
     var frame_counter: i32 = 0;
 
     var camera = rl.Camera3D{
-        .position = rl.Vector3.init(5.0, 4.0, 5.0),
-        .target = rl.Vector3.init(0, 2.0, 0),
+        .position = rl.Vector3.init(0.0, 10.0, 10.0),
+        .target = rl.Vector3.init(0, 0.0, 0),
         .up = rl.Vector3.init(0, 1.0, 0),
         .fovy = 60,
         .projection = rl.CameraProjection.camera_perspective,
     };
+
+    const planePosition = rl.Vector3.init(0.0, 0.0, 0.0);
 
     // var textBox = rl.Rectangle.init(screen_width / 2.0 - 100, 180, 50);
     // var mouseOnText = false;
@@ -70,6 +69,7 @@ pub fn main() anyerror!void {
         defer rl.endDrawing();
 
         switch (current_screen) {
+            // Mockup loading screen, skips straight to world
             .login => {
                 // Splash screen
                 rl.drawTexture(splash, 0, 0, rl.Color.white);
@@ -78,13 +78,16 @@ pub fn main() anyerror!void {
                 // Loading text
                 rl.drawText("Reticulating splines...", 20, screen_height - 30, 20, rl.Color.white);
             },
+            // Skip this for now
             .cas => {},
-            //
+            // "World" (i.e. lot view)
             .world => {
                 rl.clearBackground(rl.Color.ray_white);
 
                 camera.begin();
                 defer camera.end();
+
+                rl.drawPlane(planePosition, rl.Vector2.init(2, 2), rl.Color.green);
                 rl.drawGrid(64, 1.0);
             },
         }

@@ -6,7 +6,8 @@ set(IFF2HTML_SOURCES
     md5.c
     image.c
     opngreduc.c
-    ../../Libraries/FileHandler/bmp/read_bmp.c
+    ../../library/formats/iff/iff.h
+    ../../library/formats/bmp/read_bmp.c
 )
 
 include_directories(${FILEHANDLER_INCLUDE} ${LIBPNG_INCLUDE})
