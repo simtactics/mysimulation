@@ -27,7 +27,7 @@ pub fn main() anyerror!void {
         .projection = rl.CameraProjection.camera_perspective,
     };
 
-    const planePosition = rl.Vector3.init(0.0, 0.0, 0.0);
+    // const planePosition = rl.Vector3.init(0.0, 0.0, 0.0);
 
     // var textBox = rl.Rectangle.init(screen_width / 2.0 - 100, 180, 50);
     // var mouseOnText = false;
@@ -87,7 +87,8 @@ pub fn main() anyerror!void {
                 camera.begin();
                 defer camera.end();
 
-                rl.drawPlane(planePosition, rl.Vector2.init(2, 2), rl.Color.green);
+                // rl.drawPlane(planePosition, rl.Vector2.init(2, 2), rl.Color.green);
+                try world.draw_floors("resources/empty_lot_mysim.json");
                 rl.drawGrid(64, 1.0);
             },
         }

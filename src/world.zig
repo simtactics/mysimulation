@@ -1,63 +1,77 @@
 const std = @import("std");
 const rl = @import("raylib");
+const Allocator = std.mem.Allocator;
 const json = std.json;
+const dbg = std.debug;
+const fmt = std.fmt;
+const fs = std.fs;
 
 pub const Floor = struct {
-    level: u8,
-    x: u8,
-    y: u8,
-    value: u8,
+    level: i32,
+    x: f32,
+    y: f32,
+    value: i32,
 };
 
 pub const Wall = struct {
-    level: u8,
-    x: u8,
-    y: u8,
-    value: u8,
-    tls: u8,
-    trs: u8,
-    tlp: u8,
-    trp: u8,
-    blp: u8,
-    brp: u8,
+    level: i32,
+    x: f32,
+    y: f32,
+    value: i32,
+    tls: i32,
+    trs: i32,
+    tlp: i32,
+    trp: i32,
+    blp: i32,
+    brp: i32,
 };
 
 pub const World = struct {
     floors: []Floor,
-    walls: []Wall,
+    walls: ?[]Wall,
 };
 
 pub const Item = struct {
-    guid: u8,
-    level: u8,
-    x: u8,
-    y: u8,
-    dir: u8,
-    group: u8,
+    guid: i32,
+    level: i32,
+    x: i32,
+    y: i32,
+    dir: i32,
+    group: i32,
 };
 
 pub const House = struct {
     version: f32,
-    size: u8,
-    category: u8,
+    size: i32,
+    category: i32,
     world: World,
     items: []Item,
 };
 
+pub const Blueprint = struct {
+    house: House,
+};
+
 /// Draws floors from JSON Blueprint files
-pub fn draw_floors(json_file: [:0]const u8) void {
+pub fn draw_floors(json_file: [:0]const u8) !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
     const allocator = gpa.allocator();
 
-    const floorLevel = rl.Vector3.init(0.0, 0.0, 0.0);
+    // Load file
+    const lot = rl.loadFileText(json_file);
+    defer rl.unloadFileText(lot);
 
-    const parsed = try json.parseFromSlice(House, allocator, json_file, .{});
+    // Parse JSON
+    const parsed = try json.parseFromSlice(Blueprint, allocator, lot, .{});
     defer parsed.deinit();
 
     const blueprint = parsed.value;
 
-    for (blueprint.world.floors) |flr| {
+    const floorLevel = rl.Vector3.init(0.0, 0.0, 0.0);
+
+    for (blueprint.house.world.floors) |flr| {
+        // Draw grass
         rl.drawPlane(floorLevel, rl.Vector2.init(flr.x, flr.y), rl.Color.green);
     }
 }
