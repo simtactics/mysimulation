@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.6)
 
 enable_language(ASM)
 
+option(BUILD_EXAMPLES "Build the render demos" ON)
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
 if(BUILD_SHARED_LIBS)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -141,4 +142,9 @@ add_subdirectory(formats)
 add_subdirectory(libgldemo)
 add_subdirectory(libvitaboy)
 
+if(BUILD_EXAMPLES)
+    add_subdirectory(renderdemo_ray)
+endif()
+
 unset(BUILD_SHARED_LIBS CACHE)
+unset(BUILD_EXAMPLES CACHE)

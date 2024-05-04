@@ -17,6 +17,7 @@ set(LIBVITABOY_SOURCES
     po.cpp
     skel.cpp
 )
+
 if(WIN32)
     set(LIBVITABOY_SOURCES ${LIBVITABOY_SOURCES} resource.rc)
 else()
