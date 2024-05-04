@@ -1,0 +1,9 @@
+.\farextract.exe -tso "./Avatardata/skeletons/skeletons.dat" "./out/skeletons"
+.\farextract.exe -tso "./Avatardata/animations/animations.dat" "./out/animations"
+
+.\farextract.exe -tso "./Avatardata/bodies/meshes/meshes.dat" "./out/bodies/meshes"
+.\farextract.exe -tso "./Avatardata/bodies/textures/textures.dat" "./out/bodies/textures"
+.\farextract.exe -tso "./Avatardata/heads/meshes/meshes.dat" "./out/heads/meshes"
+.\farextract.exe -tso "./Avatardata/heads/textures/textures.dat" "./out/heads/textures"
+.\farextract.exe -tso "./Avatardata/hands/meshes/meshes.dat" "./out/hands/meshes"
+.\farextract.exe -tso "./Avatardata/hands/textures/textures.dat" "./out/hands/textures"
