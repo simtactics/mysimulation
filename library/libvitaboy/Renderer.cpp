@@ -255,7 +255,7 @@ static void DrawMeshes()
     glColor3f(1.0, 1.0, 1.0);
     glPushMatrix();
     glLoadIdentity();
-    TransformVertices(Skeleton.Bones[0]);
+    //TransformVertices(Skeleton.Bones[0]);
     glPopMatrix();
     BlendVertices();
 
@@ -424,7 +424,7 @@ static int Startup()
     ReadAnimation(Animation);
     free(InData);
 
-    AdvanceFrame(Skeleton, Animation, 0);
+    //AdvanceFrame(Skeleton, Animation, 0);
     return 1;
 }
 

@@ -3,13 +3,14 @@
 #include "utils.h"          // Required for: TRACELOG(), LoadFileData(), LoadFileText(), SaveFileText()
 
 #include <string>
+#include <unordered_map>
 #include <cassert>
 #include <FileHandler.h>
 #include "../libvitaboy/libvitaboy.hpp"
 
 
-#define SCREEN_WIDTH (1920)
-#define SCREEN_HEIGHT (1080)
+#define SCREEN_WIDTH (800)
+#define SCREEN_HEIGHT (600)
 #define WINDOW_TITLE "libvitaboy - Renderer - Ray"
 
 //we dont look in this mess for now
@@ -28,10 +29,26 @@ static bool Read(const char* Filename, uint8_t** InData) {
 //globals
 //skeleton
 static Skeleton_t Skeleton;
-static void DrawBonesSkeleton(Bone_t& Bone)
+static Model box_model;
+static void DrawBonesSkeleton(Bone_t& Bone, const Matrix& M)
 {
-    const float size = 0.1f;
-    const Vector3 position{Bone.Translation.x, Bone.Translation.y, Bone.Translation.z};
+    Vector3 bonePos = Vector3{ Bone.Translation.x, Bone.Translation.y, Bone.Translation.z };
+
+    const Vector3 scale = { 1.f, 1.f, 1.f };
+    Vector3 axis{ Vector3Zero()};
+    float angle{ 0 };
+    const Quaternion rotation = Quaternion{ Bone.Rotation.x, Bone.Rotation.y, Bone.Rotation.z, Bone.Rotation.w };
+    QuaternionToAxisAngle(rotation, &axis, &angle);
+
+    Matrix matScale = MatrixScale(scale.x, scale.y, scale.z);
+    Matrix matRotation = MatrixRotate(axis, angle);
+    Matrix matTranslation = MatrixTranslate(bonePos.x, bonePos.y, bonePos.z);
+    
+    //this order is correct, see 
+    //Matrix matTransform = MatrixMultiply(MatrixMultiply(matScale, matTranslation), matRotation);
+    Matrix matTransform = MatrixMultiply(matScale, matTranslation);
+    Matrix modelMatrix = MatrixMultiply(M, matTransform);
+
     Color color;
     if(!strcmp(Bone.Name, "ROOT"))
     {
@@ -45,25 +62,55 @@ static void DrawBonesSkeleton(Bone_t& Bone)
     {
         color = GREEN;
     }
-    DrawCube(position, size, size, size, color);
+    DrawModel(box_model, Vector3Transform(bonePos, M), 1.f, color);
+    
+    for (unsigned i = 0; i < Bone.ChildrenCount; i++)
+    {
+        DrawBonesSkeleton(*Bone.Children[i], modelMatrix);
+    }
+}
 
-    if(Bone.ChildrenCount == 1)
+static int counter = 0;
+static void DrawTest(const Matrix& M)
+{
+    Vector3 rootPosition = Vector3Transform(Vector3{ 0.f, 0.f, 0.f }, M);
+    DrawModel (box_model, //root
+        rootPosition,
+        1.f, YELLOW);
+    DrawModel(box_model, //x
+        Vector3Transform(Vector3{ 1.f, 0.f, 0.f }, M),
+        1.f, RED);
+    DrawModel(box_model, //y
+        Vector3Transform(Vector3{ 0.f, 1.f, 0.f }, M),
+        1.f, GREEN);
+    DrawModel(box_model, //z
+        Vector3Transform(Vector3{ 0.f, 0.f, 1.f }, M),
+        1.f, BLUE);
+
+    Vector3 scale = { 1.f, 1.f, 1.f };
+    Vector3 rotationAxis = { 0.0f, 0.0f, 1.0f };
+
+    Matrix matScale = MatrixScale(scale.x, scale.y, scale.z);
+    Matrix matRotation = MatrixRotate(rotationAxis, 45.f * DEG2RAD);
+    Matrix matTranslation = MatrixTranslate(5.f, 0.f, 0.f); //transform 5 in the X direction
+
+    // https://github.com/JipBoesenkool/CSE167F17_Project4/blob/master/src/renderer/model/Transform.cpp
+    // SRT = iTRS, for absolute
+    // STR = iRTS, for local transforms
+    Matrix matTransform = MatrixMultiply(MatrixMultiply(matScale, matTranslation), matRotation);
+    Matrix modelMatrix = MatrixMultiply(M, matTransform);
+
+    if (counter < 3)
     {
-        DrawBonesSkeleton(*Bone.Children[0]);
+        counter++;
+        DrawTest(modelMatrix);
     }
-    else if(Bone.ChildrenCount > 1)
-    {
-        for(unsigned i=0; i<Bone.ChildrenCount; i++)
-        {
-            DrawBonesSkeleton(*Bone.Children[i]);
-        }
-    }
+    counter = 0;
 }
 
 //animation
 static Animation_t Animation;
 static float AnimationTime = 0;
-
 static void AdvanceFrame(Skeleton_t& Skeleton, Animation_t& Animation, float TimeDelta)
 {
     float Duration = (float)Animation.Motions[0].FrameCount/30;
@@ -159,6 +206,8 @@ namespace CustomRay
         model.materials = (Material*)RL_CALLOC(model.materialCount, sizeof(Material));
         model.meshMaterial[0] = 0;  // By default, assign material 0 to each mesh
 
+        //TODO: reassign bone IDS with a map
+
         ///load the textures
         for (int i = 0; i < model.materialCount; i++)
         {
@@ -180,20 +229,13 @@ namespace CustomRay
             ray_mesh.indices = (unsigned short*)RL_CALLOC(ray_mesh.triangleCount * 3, sizeof(unsigned short));
 
             // Process all mesh faces
-            //indices
-            for (unsigned j = 0; j < ray_mesh.triangleCount; j++)
-            {
-                ray_mesh.indices[j * 3 + 0] = (unsigned short)tso_mesh.FaceData[j].VertexA;
-                ray_mesh.indices[j * 3 + 1] = (unsigned short)tso_mesh.FaceData[j].VertexC;
-                ray_mesh.indices[j * 3 + 2] = (unsigned short)tso_mesh.FaceData[j].VertexB;
-            }
             //vertex data
             for (unsigned j = 0; j < ray_mesh.vertexCount; j++)
             {
                 //vertices?
-                ray_mesh.vertices[j * 3 + 0] = tso_mesh.VertexData[j].Coord.x + (i * 2.f);
+                ray_mesh.vertices[j * 3 + 0] = tso_mesh.VertexData[j].Coord.x;
                 ray_mesh.vertices[j * 3 + 1] = tso_mesh.VertexData[j].Coord.y;
-                ray_mesh.vertices[j * 3 + 2] = tso_mesh.VertexData[j].Coord.z;
+                ray_mesh.vertices[j * 3 + 2] = tso_mesh.VertexData[j].Coord.z + (i * 2.f);
                 //coords
                 ray_mesh.texcoords[j * 2 + 0] = tso_mesh.TransformedVertexData[j].TextureCoord.u;
                 ray_mesh.texcoords[j * 2 + 1] = -tso_mesh.TransformedVertexData[j].TextureCoord.v;
@@ -202,7 +244,13 @@ namespace CustomRay
                 ray_mesh.normals[j * 3 + 0] = tso_mesh.TransformedVertexData[j].NormalCoord.y;
                 ray_mesh.normals[j * 3 + 0] = tso_mesh.TransformedVertexData[j].NormalCoord.z;
             }
-
+            //indices
+            for (unsigned j = 0; j < ray_mesh.triangleCount; j++)
+            {
+                ray_mesh.indices[j * 3 + 0] = (unsigned short)tso_mesh.FaceData[j].VertexA;
+                ray_mesh.indices[j * 3 + 1] = (unsigned short)tso_mesh.FaceData[j].VertexC;
+                ray_mesh.indices[j * 3 + 2] = (unsigned short)tso_mesh.FaceData[j].VertexB;
+            }
             //select the textures
             model.meshMaterial[i] = Mesh_UseTexture[i];
         }
@@ -242,9 +290,63 @@ namespace CustomRay
     }
 
     //https://gist.github.com/Gamerfiend/18206474679bf5873925c839d0d6a6d0
-    void LoadSkeletonTSO()
+    void LoadSkeletonTSO(Model& ray_model)
     {
-        //Raylib combines skeleton data with the model data
+        //Load the bonus
+        // map string to ID
+        Skeleton_t& tso_skeleton = Skeleton;
+        const unsigned int boneCount = Skeleton.BoneCount;
+        ray_model.boneCount = boneCount;
+        ray_model.bones = (BoneInfo*)RL_MALLOC(boneCount * sizeof(BoneInfo));
+        ray_model.bindPose = (Transform*)RL_MALLOC(boneCount * sizeof(Transform));
+
+        for (unsigned int i = 0; i < Skeleton.BoneCount; i++)
+        {
+            Bone_t& tso_bone = Skeleton.Bones[i];
+
+            BoneInfo& ray_bone = ray_model.bones[i];
+            Transform& ray_bone_transform = ray_model.bindPose[i];
+
+            //fill boneinfo
+            //sims naming might be bigger then 32 chars, assert if so
+            const int length = strlen(tso_bone.Name);
+            assert(strlen(tso_bone.Name) <= 32);
+            strcpy(ray_bone.name, tso_bone.Name);
+            ray_bone.parent = FindBone(Skeleton, tso_bone.ParentsName, boneCount);
+
+            printf("Bone: %i\n", i);
+            printf("Name: %s\n", ray_bone.name);
+            printf("parentName: %s\n", tso_bone.ParentsName);
+            printf("parentID: %i\n", ray_bone.parent);
+
+            // Set the transform
+            const Translation_t& tso_bone_position = tso_bone.Translation;
+            const Rotation_t& tso_bone_rotation    = tso_bone.Rotation;
+            const Vector3 tso_bone_Scale           = { 1.f, 1.f, 1.f, }; //no scale?
+            // sucks writing it out, but safer then pointer casting
+            //position
+            ray_bone_transform.translation.x = tso_bone_position.x;
+            ray_bone_transform.translation.y = tso_bone_position.y;
+            ray_bone_transform.translation.z = tso_bone_position.z;
+            //rotation
+            ray_bone_transform.rotation.x = tso_bone_rotation.x;
+            ray_bone_transform.rotation.y = tso_bone_rotation.y;
+            ray_bone_transform.rotation.z = tso_bone_rotation.z;
+            ray_bone_transform.rotation.w = tso_bone_rotation.w;
+            //scale
+            ray_bone_transform.scale.x = tso_bone_Scale.x;
+            ray_bone_transform.scale.y = tso_bone_Scale.y;
+            ray_bone_transform.scale.z = tso_bone_Scale.z;
+        }
+
+        for (int i = 0; i < ray_model.meshCount; i++)
+        {
+            Mesh_t& tso_mesh = Meshes[i];
+            Mesh& ray_mesh = ray_model.meshes[i];
+        }
+
+        [[maybe_unused]] unsigned int block = 0;
+        block++;
     }
 }
 #pragma endregion custom_ray
@@ -269,13 +371,13 @@ static int Startup()
     ReadAnimation(Animation);
     free(InData);
 
-    AdvanceFrame(Skeleton, Animation, 0);
+    //AdvanceFrame(Skeleton, Animation, 0);
     return 1;
 }
 
 //settings
 static bool ShowTextures = false;
-static bool ShowMesh = true;
+static bool ShowMesh = false;
 static bool ShowSkeleton = true;
 int main(void)
 {
@@ -284,7 +386,7 @@ int main(void)
 
     // Initialize the camera
     Camera3D camera = { 0 };
-    camera.position = Vector3{ 0.f, 3.0f, 5.0f }; // Camera position
+    camera.position = Vector3{ 0.f, 5.0f, 5.0f }; // Camera position
     camera.target = Vector3{ 0.0f, 0.0f, 0.0f };  // Camera looking at point
     camera.up = Vector3{ 0.0f, 1.0f, 0.0f };      // Camera up vector (rotation towards target)
     camera.fovy = 70.0f;                          // Camera field-of-view Y
@@ -295,7 +397,15 @@ int main(void)
     assert( LoadTextures() );
     assert( LoadMeshes() );
 
+    printf("======================================\n");
+    printf("=================RAY==================\n");
+    printf("======================================\n");
+
+    const float size = 0.1f;
+    box_model = LoadModelFromMesh( GenMeshCube(size, size, size) );
+
     Model model = CustomRay::LoadModelTSO();
+    CustomRay::LoadSkeletonTSO(model);
 
     DisableCursor();
 
@@ -310,17 +420,22 @@ int main(void)
             {
                 AdvanceFrame(Skeleton, Animation, dt);
             }
+            if (IsKeyPressed(KEY_ONE))
+            {
+                ShowSkeleton = !ShowSkeleton;
+            }
         }
 
         BeginDrawing();
         {
-            ClearBackground(DARKPURPLE);
+            ClearBackground(BLACK);
             BeginMode3D(camera);
             {
                 DrawGrid(10, 5.0f);
                 if(ShowSkeleton)
                 {
-                    DrawBonesSkeleton(Skeleton.Bones[0]);
+                    Matrix M = MatrixIdentity();
+                    DrawBonesSkeleton(Skeleton.Bones[0], M);
                 }
 
                 if (ShowMesh)
@@ -329,6 +444,9 @@ int main(void)
                     const float scale = 1.f;
                     DrawModel(model, position, scale, WHITE);
                 }
+
+                Matrix M = MatrixIdentity();
+                DrawTest(M);
             }
             EndMode3D();
             
@@ -343,6 +461,8 @@ int main(void)
         }
         EndDrawing();
     }
+
+    UnloadModel(model);
 
     CloseWindow();
     return 0;
