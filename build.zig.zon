@@ -16,8 +16,8 @@
     // internet connectivity.
     .dependencies = .{
         .@"raylib-zig" = .{
-            .url = "https://github.com/Not-Nik/raylib-zig/archive/devel.tar.gz",
-            .hash = "12201895450c4309071f03d32a3f4bf012de2fe9f06baa9f6949dc6bb9f3850c5a7f",
+            .url = "https://github.com/tonytins/raylib-zig/archive/refs/tags/v5.1.103-dev.tar.gz",
+            .hash = "1220f48ef45b22a393da16f3210b61b87ad9b65d215d02c51189861a57a1b4290059",
         },
     },
     .paths = .{
