@@ -29,7 +29,7 @@ Will this succeed? *I have no idea*. I'm not much of a game developer, but that 
 	- OpenGL
 	- [Zig](https://ziglang.org/) 0.11 or newer
 - API Server
-	- [.NET](https://dotnet.microsoft.com/en-us/) 8.0 or later
+	- [.NET](https://dotnet.microsoft.com/en-us/) 8.0 or newer
 	- [Mockoon](https://mockoon.com/) for mock APIs
 
 ## Getting Started
@@ -56,4 +56,8 @@ Will this succeed? *I have no idea*. I'm not much of a game developer, but that 
 
 ## License
 
-I license this project under the GPL-3.0 license - see [LICENSE](LICENSE) for details.
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0). The full text of the license is available within the project repository, accessible through this [provided link](./LICENSE). In summary, the GPL-3.0 grants users the freedom to use, modify, and distribute the software, provided that any derivative works are also licensed under the GPL-3.0, ensuring that the software remains free and open source. Additionally, it mandates that any modifications made to the original codebase must be disclosed and distributed under the same license terms, promoting transparency and collaboration within the software community.
+
+## Disclaimer
+
+My Simulation is not in any way affiliated with Electronic Arts, Maxis or The Sims, it is an unofficial community run project

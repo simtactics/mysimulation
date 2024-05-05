@@ -1,0 +1,7 @@
+# P2P Mode
+
+While the long-term hopes are for My Simulation to be a full implementation of The Sims Online, my primary short-term and realistic goal is what I call "P2P Mode", inspired by FreeSO's alpha stage. In this mode, you skip the city selection and map screen and are taken straight to the world itself after CAS (Create-A-Sim), allowing to you build and play the game instantly. What makes this P2P is that the client can double as a server, and you can bring in other players to join in. This mode is intended to be both a fallback and a core part of My Simulation. This idea is inspired by games like Team Fortress 2 and OpenTDD, which feature similar multiplayer experiences.
+
+In The Sims Online, a lot's maximum size is 64x64 tiles. The most commonly used items are no more than 1 or 2 tiles. So that is a lot of space. Even in FreeSO, it still takes a minute to run anywhere when lots are this big. At this scale, most tend to function as towns or resorts, making it ideal for P2P play. In this mode, we could possibly add in additional zoning tools derived from the roommate feature to allow for additional freedom.
+
+Much like FreeSO, P2P Mode will take advantage of the blueprint files, except this version will be in JSON form for easier readability and take advantage of existing APIs. Support for the original XML version can come later when it comes time for implementing the jobs. If needed, SQLite or NoSQL database can be used. My Simulation's client could run in headless mode, and in theory, be used on a low-end Raspberry Pi in this mode.

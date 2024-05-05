@@ -1,6 +1,7 @@
 # FreeSO API
 
 ## Table of Contents  
+
 1. [Overview](#overview)
 2. [API](#api)
     1. [Avatars](#avatars)
