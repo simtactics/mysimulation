@@ -16,7 +16,7 @@ Will this succeed? *I have no idea*. I'm not much of a game developer, but that 
 
 ## To do
 
-- [ ] Rewrite header files
+- [ ] Rewrite C++ header files
 
 - [ ] Communicate with FreeSO-based API server
 
@@ -56,7 +56,7 @@ Will this succeed? *I have no idea*. I'm not much of a game developer, but that 
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0 (GPL-3.0). The full text of the license is available within the project repository, accessible through this [provided link](./LICENSE). In summary, the GPL-3.0 grants users the freedom to use, modify, and distribute the software, provided that any derivative works are also licensed under the GPL-3.0, ensuring that the software remains free and open source. Additionally, it mandates that any modifications made to the original codebase must be disclosed and distributed under the same license terms, promoting transparency and collaboration within the software community.
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0). The full text of the license is available within the project repository, accessible through this [provided link](./LICENSE). Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights.
 
 ## Disclaimer
 
