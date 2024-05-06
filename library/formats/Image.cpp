@@ -16,7 +16,7 @@
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-#include "FileHandler.hpp"
+#include "FileHandler.h"
 #include <jpeglib.h>
 #include <jerror.h>
 #include <png.h>
@@ -136,6 +136,7 @@ static void skip_input_data(j_decompress_ptr cinfo, long bytes)
     src->next_input_byte += bytes;
     src->bytes_in_buffer -= bytes;
 }
+
 static uint8_t * ReadJPG(Image_t * Image, const uint8_t * InData, size_t FileSize){
     //Initialize
     jpeg_decompress_struct cinfo;

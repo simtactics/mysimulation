@@ -17,8 +17,8 @@
 */
 
 #include <stdio.h>
-#include <strings.h>
-#include <FileHandler.hpp>
+#include <string.h>
+#include <FileHandler.h>
 #include "libvitaboy.hpp"
 
 enum VBFileType {
