@@ -251,14 +251,14 @@ static void BlendVertices()
 
 static void DrawMeshes()
 {
-    glPointSize(2.0);
+    //glPointSize(2.0);
     glColor3f(1.0, 1.0, 1.0);
     glPushMatrix();
     glLoadIdentity();
-    //TransformVertices(Skeleton.Bones[0]);
+    TransformVertices(Skeleton.Bones[0]);
     glPopMatrix();
     BlendVertices();
-
+    
     glEnable(GL_TEXTURE_2D);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -424,7 +424,7 @@ static int Startup()
     ReadAnimation(Animation);
     free(InData);
 
-    //AdvanceFrame(Skeleton, Animation, 0);
+    AdvanceFrame(Skeleton, Animation, 0);
     return 1;
 }
 

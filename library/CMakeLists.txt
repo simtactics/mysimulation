@@ -144,6 +144,7 @@ add_subdirectory(libvitaboy)
 
 if(BUILD_EXAMPLES)
     add_subdirectory(renderdemo_ray)
+    add_subdirectory(rlgldemo)
 endif()
 
 unset(BUILD_SHARED_LIBS CACHE)

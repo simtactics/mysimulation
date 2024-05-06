@@ -2,8 +2,6 @@
 #include "raymath.h"        // Required for: Vector3, Quaternion and Matrix functionality
 #include "utils.h"          // Required for: TRACELOG(), LoadFileData(), LoadFileText(), SaveFileText()
 
-#include <string>
-#include <unordered_map>
 #include <cassert>
 #include <FileHandler.h>
 #include "../libvitaboy/libvitaboy.hpp"
@@ -15,7 +13,6 @@
 
 //we dont look in this mess for now
 #pragma region TSO
-
 //util
 static bool Read(const char* Filename, uint8_t** InData) {
     *InData = File::ReadFile(Filename);
@@ -32,22 +29,20 @@ static Skeleton_t Skeleton;
 static Model box_model;
 static void DrawBonesSkeleton(Bone_t& Bone, const Matrix& M)
 {
-    Vector3 bonePos = Vector3{ Bone.Translation.x, Bone.Translation.y, Bone.Translation.z };
-
-    const Vector3 scale = { 1.f, 1.f, 1.f };
     Vector3 axis{ Vector3Zero()};
     float angle{ 0 };
     const Quaternion rotation = Quaternion{ Bone.Rotation.x, Bone.Rotation.y, Bone.Rotation.z, Bone.Rotation.w };
     QuaternionToAxisAngle(rotation, &axis, &angle);
 
-    Matrix matScale = MatrixScale(scale.x, scale.y, scale.z);
-    Matrix matRotation = MatrixRotate(axis, angle);
-    Matrix matTranslation = MatrixTranslate(bonePos.x, bonePos.y, bonePos.z);
+    // A normalized quaternion(called a "versor") consisting of X, Y, Z, W coordinates, each a 32 - bit little - endian float, 
+    // specifying the default rotation of this bone to be applied after translation.
+    Matrix matRotation = MatrixRotate(axis, angle * DEG2RAD);
+    // X,Y,Z coordinates, each a 32-bit little-endian float, 
+    // specifying the distance from the joint with the parent to the distal end of this bone after the default rotation has been applied
+    Matrix matTranslation = MatrixTranslate(Bone.Translation.x, Bone.Translation.y, Bone.Translation.z);
     
-    //this order is correct, see 
-    //Matrix matTransform = MatrixMultiply(MatrixMultiply(matScale, matTranslation), matRotation);
-    Matrix matTransform = MatrixMultiply(matScale, matTranslation);
-    Matrix modelMatrix = MatrixMultiply(M, matTransform);
+    Matrix matTransform = MatrixMultiply(matTranslation, matRotation);
+    Matrix modelMatrix = MatrixMultiply(M, matTranslation);
 
     Color color;
     if(!strcmp(Bone.Name, "ROOT"))
@@ -62,34 +57,27 @@ static void DrawBonesSkeleton(Bone_t& Bone, const Matrix& M)
     {
         color = GREEN;
     }
-    DrawModel(box_model, Vector3Transform(bonePos, M), 1.f, color);
+    const Vector3 position{ modelMatrix.m12, modelMatrix.m13, modelMatrix.m14 };
+    DrawModel(box_model, position, 1.f, color);
     
-    for (unsigned i = 0; i < Bone.ChildrenCount; i++)
+    if (Bone.ChildrenCount == 1)
     {
-        DrawBonesSkeleton(*Bone.Children[i], modelMatrix);
+        DrawBonesSkeleton(*Bone.Children[0], M);
+    }
+    else if (Bone.ChildrenCount > 1)
+    {
+        for (unsigned i = 0; i < Bone.ChildrenCount; i++)
+        {
+            DrawBonesSkeleton(*Bone.Children[i], modelMatrix);
+        }
     }
 }
 
 static int counter = 0;
 static void DrawTest(const Matrix& M)
 {
-    Vector3 rootPosition = Vector3Transform(Vector3{ 0.f, 0.f, 0.f }, M);
-    DrawModel (box_model, //root
-        rootPosition,
-        1.f, YELLOW);
-    DrawModel(box_model, //x
-        Vector3Transform(Vector3{ 1.f, 0.f, 0.f }, M),
-        1.f, RED);
-    DrawModel(box_model, //y
-        Vector3Transform(Vector3{ 0.f, 1.f, 0.f }, M),
-        1.f, GREEN);
-    DrawModel(box_model, //z
-        Vector3Transform(Vector3{ 0.f, 0.f, 1.f }, M),
-        1.f, BLUE);
-
     Vector3 scale = { 1.f, 1.f, 1.f };
     Vector3 rotationAxis = { 0.0f, 0.0f, 1.0f };
-
     Matrix matScale = MatrixScale(scale.x, scale.y, scale.z);
     Matrix matRotation = MatrixRotate(rotationAxis, 45.f * DEG2RAD);
     Matrix matTranslation = MatrixTranslate(5.f, 0.f, 0.f); //transform 5 in the X direction
@@ -98,7 +86,21 @@ static void DrawTest(const Matrix& M)
     // SRT = iTRS, for absolute
     // STR = iRTS, for local transforms
     Matrix matTransform = MatrixMultiply(MatrixMultiply(matScale, matTranslation), matRotation);
-    Matrix modelMatrix = MatrixMultiply(M, matTransform);
+    Matrix modelMatrix = MatrixMultiply(matTransform, M);
+
+    DrawModel (box_model, //root
+        Vector3Transform(Vector3{ 0.f, 0.f, 0.f }, modelMatrix),
+        1.f, YELLOW);
+    DrawModel(box_model, //x
+        Vector3Transform(Vector3{ 1.f, 0.f, 0.f }, modelMatrix),
+        1.f, RED);
+    DrawModel(box_model, //y
+        Vector3Transform(Vector3{ 0.f, 1.f, 0.f }, modelMatrix),
+        1.f, GREEN);
+    DrawModel(box_model, //z
+        Vector3Transform(Vector3{ 0.f, 0.f, 1.f }, modelMatrix),
+        1.f, BLUE);
+    
 
     if (counter < 3)
     {
@@ -117,7 +119,8 @@ static void AdvanceFrame(Skeleton_t& Skeleton, Animation_t& Animation, float Tim
     AnimationTime += TimeDelta;
     AnimationTime = fmodf(AnimationTime, Duration); //Loop the animation
 
-    for(unsigned i=0; i<Animation.MotionsCount; i++){
+    for(unsigned i=0; i<Animation.MotionsCount; i++)
+    {
         unsigned BoneIndex = FindBone(Skeleton, Animation.Motions[i].BoneName, Skeleton.BoneCount);
         if(BoneIndex == (unsigned)-1) continue;
 
@@ -127,14 +130,16 @@ static void AdvanceFrame(Skeleton_t& Skeleton, Animation_t& Animation, float Tim
         float FractionShown = AnimationTime*30 - Frame;
         unsigned NextFrame = (Frame+1 != Animation.Motions[0].FrameCount) ? Frame+1 : 0;
 
-        if(Animation.Motions[i].HasTranslation){
+        if(Animation.Motions[i].HasTranslation)
+        {
             Translation_t& Translation = Animation.Motions[i].Translations[Frame];
             Translation_t& NextTranslation = Animation.Motions[i].Translations[NextFrame];
             Bone.Translation.x = (1-FractionShown)*Translation.x + FractionShown*NextTranslation.x;
             Bone.Translation.y = (1-FractionShown)*Translation.y + FractionShown*NextTranslation.y;
             Bone.Translation.z = (1-FractionShown)*Translation.z + FractionShown*NextTranslation.z;
         }
-        if(Animation.Motions[i].HasRotation){
+        if(Animation.Motions[i].HasRotation)
+        {
             Rotation_t& Rotation = Animation.Motions[i].Rotations[Frame];
             Rotation_t& NextRotation = Animation.Motions[i].Rotations[NextFrame];
 
@@ -189,6 +194,100 @@ static bool LoadMeshes()
     }
     return true;
 }
+
+//do this once!
+static void TransformVertices(Bone_t& Bone, const Matrix& M)
+{
+    Matrix matTranslation = MatrixTranslate(Bone.Translation.x, Bone.Translation.y, Bone.Translation.z);
+    Vector3 axis{ Vector3Zero() };
+    float angle{ 0 };
+    const Quaternion rotation = Quaternion{ Bone.Rotation.x, Bone.Rotation.y, Bone.Rotation.z, Bone.Rotation.w };
+    QuaternionToAxisAngle(rotation, &axis, &angle);
+    Matrix matRotation = MatrixRotate(axis, angle * DEG2RAD);
+
+    Matrix matTransform = MatrixMultiply(matTranslation, M);
+    matTransform = MatrixMultiply(matRotation, matTransform);
+
+    unsigned MeshIndex = 0;
+    unsigned BoneIndex;
+
+    for (unsigned i = 1; i < MeshCount; i++) {
+        if (!strcmp(Bone.Name, MeshActivate[i])) {
+            MeshIndex = i;
+            break;
+        }
+    }
+    Mesh_t& Mesh = Meshes[MeshIndex];
+    for (BoneIndex = 0; BoneIndex < Mesh.BindingCount; BoneIndex++) {
+        if (!strcmp(Bone.Name, Mesh.BoneNames[Mesh.BoneBindings[BoneIndex].BoneIndex]))
+            break;
+    }
+
+    if (BoneIndex < Mesh.BindingCount)
+    {
+        for (unsigned i = 0; i < Mesh.BoneBindings[BoneIndex].RealVertexCount; i++)
+        {
+            unsigned VertexIndex = Mesh.BoneBindings[BoneIndex].FirstRealVertex + i;
+            Vertex_t& RelativeVertex = Mesh.VertexData[VertexIndex];
+            Vertex_t& AbsoluteVertex = Mesh.TransformedVertexData[VertexIndex];
+
+            const Vector3 vRelativePos{ RelativeVertex.Coord.x, RelativeVertex.Coord.y, RelativeVertex.Coord.z };
+            const Vector3 vAbsolutePos = Vector3Transform(vRelativePos, matTransform);
+
+            AbsoluteVertex.Coord.x = vAbsolutePos.x;
+            AbsoluteVertex.Coord.y = vAbsolutePos.y;
+            AbsoluteVertex.Coord.z = vAbsolutePos.z;
+        }
+        for (unsigned i = 0; i < Mesh.BoneBindings[BoneIndex].BlendVertexCount; i++)
+        {
+            unsigned VertexIndex = Mesh.RealVertexCount + Mesh.BoneBindings[BoneIndex].FirstBlendVertex + i;
+            Vertex_t& RelativeVertex = Mesh.VertexData[VertexIndex];
+            Vertex_t& AbsoluteVertex = Mesh.TransformedVertexData[VertexIndex];
+
+            const Vector3 vRelativePos{ RelativeVertex.Coord.x, RelativeVertex.Coord.y, RelativeVertex.Coord.z };
+            const Vector3 vAbsolutePos = Vector3Transform(vRelativePos, matTransform);
+
+            AbsoluteVertex.Coord.x = vAbsolutePos.x;
+            AbsoluteVertex.Coord.y = vAbsolutePos.y;
+            AbsoluteVertex.Coord.z = vAbsolutePos.z;
+        }
+    }
+
+    if (Bone.ChildrenCount == 1)
+    {
+        TransformVertices(*Bone.Children[0], M);
+    }
+    else if (Bone.ChildrenCount > 1)
+    {
+        for (unsigned i = 0; i < Bone.ChildrenCount; i++)
+        {
+            TransformVertices(*Bone.Children[i], matTransform);
+        }
+    }
+}
+
+static void BlendVertices()
+{
+    for (unsigned i = 0; i < MeshCount; i++)
+    {
+        Mesh_t& Mesh = Meshes[i];
+        for (unsigned i = 0; i < Mesh.BlendVertexCount; i++)
+        {
+            Vertex_t& BlendVertex = Mesh.TransformedVertexData[Mesh.RealVertexCount + i];
+            float Weight = BlendVertex.BlendData.Weight;
+            Vertex_t& RealVertex = Mesh.TransformedVertexData[BlendVertex.BlendData.OtherVertex];
+            RealVertex.Coord.x =
+                Weight * BlendVertex.Coord.x +
+                (1 - Weight) * RealVertex.Coord.x;
+            RealVertex.Coord.y =
+                Weight * BlendVertex.Coord.y +
+                (1 - Weight) * RealVertex.Coord.y;
+            RealVertex.Coord.z =
+                Weight * BlendVertex.Coord.z +
+                (1 - Weight) * RealVertex.Coord.z;
+        }
+    }
+}
 #pragma endregion TSO
 
 #pragma region custom_ray
@@ -205,8 +304,6 @@ namespace CustomRay
         model.meshMaterial = (int*)RL_CALLOC(model.meshCount, sizeof(int)); // Material index assigned to each mesh
         model.materials = (Material*)RL_CALLOC(model.materialCount, sizeof(Material));
         model.meshMaterial[0] = 0;  // By default, assign material 0 to each mesh
-
-        //TODO: reassign bone IDS with a map
 
         ///load the textures
         for (int i = 0; i < model.materialCount; i++)
@@ -233,9 +330,12 @@ namespace CustomRay
             for (unsigned j = 0; j < ray_mesh.vertexCount; j++)
             {
                 //vertices?
-                ray_mesh.vertices[j * 3 + 0] = tso_mesh.VertexData[j].Coord.x;
-                ray_mesh.vertices[j * 3 + 1] = tso_mesh.VertexData[j].Coord.y;
-                ray_mesh.vertices[j * 3 + 2] = tso_mesh.VertexData[j].Coord.z + (i * 2.f);
+                ray_mesh.vertices[j * 3 + 0] = tso_mesh.TransformedVertexData[j].Coord.x;
+                ray_mesh.vertices[j * 3 + 1] = tso_mesh.TransformedVertexData[j].Coord.y;
+                ray_mesh.vertices[j * 3 + 2] = tso_mesh.TransformedVertexData[j].Coord.z;
+                //ray_mesh.vertices[j * 3 + 0] = tso_mesh.VertexData[j].Coord.x;
+                //ray_mesh.vertices[j * 3 + 1] = tso_mesh.VertexData[j].Coord.y;
+                //ray_mesh.vertices[j * 3 + 2] = tso_mesh.VertexData[j].Coord.z + (i * 1.f); //offset for now so we can see them
                 //coords
                 ray_mesh.texcoords[j * 2 + 0] = tso_mesh.TransformedVertexData[j].TextureCoord.u;
                 ray_mesh.texcoords[j * 2 + 1] = -tso_mesh.TransformedVertexData[j].TextureCoord.v;
@@ -248,8 +348,12 @@ namespace CustomRay
             for (unsigned j = 0; j < ray_mesh.triangleCount; j++)
             {
                 ray_mesh.indices[j * 3 + 0] = (unsigned short)tso_mesh.FaceData[j].VertexA;
+                //counter clock wise
                 ray_mesh.indices[j * 3 + 1] = (unsigned short)tso_mesh.FaceData[j].VertexC;
                 ray_mesh.indices[j * 3 + 2] = (unsigned short)tso_mesh.FaceData[j].VertexB;
+                //Clock wise
+                //ray_mesh.indices[j * 3 + 1] = (unsigned short)tso_mesh.FaceData[j].VertexB;
+                //ray_mesh.indices[j * 3 + 2] = (unsigned short)tso_mesh.FaceData[j].VertexC;
             }
             //select the textures
             model.meshMaterial[i] = Mesh_UseTexture[i];
@@ -285,7 +389,14 @@ namespace CustomRay
     ModelAnimation LoadModelAnimationsTSO()
     {
         ModelAnimation result;
+        // Translation data - For each translation:
+        // Translation - X, Y, Z coordinates, each a 32 - bit little - endian float, specifying new, 
+        // REPLACEMENT translation values for the bones of the skeleton.These values are stored absolute.
 
+        // Rotation data - For each rotation :
+        // Rotation - A normalized quaternion(called a "versor") consisting of X, Y, Z, W coordinates, each a 32 - bit little - endian float, specifying new, 
+        // replacement rotation values for the bones of the skeleton.These values are stored absolute.
+        // These values assume a left - handed coordinate system, meaning that for a right - handed coordinate system(like OpenGL and XNA), you have to mirror the quaternion by negating Y and Z.
         return result;
     }
 
@@ -371,13 +482,13 @@ static int Startup()
     ReadAnimation(Animation);
     free(InData);
 
-    //AdvanceFrame(Skeleton, Animation, 0);
+    AdvanceFrame(Skeleton, Animation, 0);
     return 1;
 }
 
 //settings
 static bool ShowTextures = false;
-static bool ShowMesh = false;
+static bool ShowMesh = true;
 static bool ShowSkeleton = true;
 int main(void)
 {
@@ -401,8 +512,13 @@ int main(void)
     printf("=================RAY==================\n");
     printf("======================================\n");
 
+    const Matrix& matIdentity = MatrixIdentity();
     const float size = 0.1f;
     box_model = LoadModelFromMesh( GenMeshCube(size, size, size) );
+    
+    //do this once!
+    TransformVertices(Skeleton.Bones[0], matIdentity);
+    BlendVertices();
 
     Model model = CustomRay::LoadModelTSO();
     CustomRay::LoadSkeletonTSO(model);
@@ -424,6 +540,10 @@ int main(void)
             {
                 ShowSkeleton = !ShowSkeleton;
             }
+            if (IsKeyPressed(KEY_TWO))
+            {
+                ShowMesh = !ShowMesh;
+            }
         }
 
         BeginDrawing();
@@ -432,17 +552,18 @@ int main(void)
             BeginMode3D(camera);
             {
                 DrawGrid(10, 5.0f);
+
                 if(ShowSkeleton)
                 {
-                    Matrix M = MatrixIdentity();
-                    DrawBonesSkeleton(Skeleton.Bones[0], M);
+                    DrawBonesSkeleton(Skeleton.Bones[0], matIdentity);
                 }
 
                 if (ShowMesh)
                 {
                     const Vector3 position{ 0.0f, 0.0f, 0.0f }; // Set model position
                     const float scale = 1.f;
-                    DrawModel(model, position, scale, WHITE);
+                    
+                    //DrawModel(model, position, scale, WHITE);
                 }
 
                 Matrix M = MatrixIdentity();
