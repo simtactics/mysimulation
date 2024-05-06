@@ -24,11 +24,11 @@ pub fn main() anyerror!void {
     var frame_counter: i32 = 0;
 
     var camera = rl.Camera3D{
-        .position = rl.Vector3.init(0.0, 20.0, 20.0),
+        .position = rl.Vector3.init(0.0, 20.0, 90.0),
         .target = rl.Vector3.init(0, 0.0, 0),
         .up = rl.Vector3.init(0, 1.0, 0),
-        .fovy = 30,
-        .projection = rl.CameraProjection.camera_perspective,
+        .fovy = 10,
+        .projection = rl.CameraProjection.camera_orthographic,
     };
 
     const floorLevel = rl.Vector3.init(0.0, 0.0, 0.0);
