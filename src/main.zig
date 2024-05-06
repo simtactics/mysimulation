@@ -47,19 +47,10 @@ pub fn main() anyerror!void {
     const floorLevel = rl.Vector3.init(0.0, 0.0, 0.0);
     const itemStatic = rl.Vector3.init(0.0, 2.0, 0.0);
 
-    var get_rotate = Rotations.init(Rotations.right);
+    var rotation_manger = Rotations.init(Rotations.right);
 
-    // const planePosition = rl.Vector3.init(0.0, 0.0, 0.0);
-
-    // var textBox = rl.Rectangle.init(screen_width / 2.0 - 100, 180, 50);
-    // var mouseOnText = false;
-    // var letterCount = 0;
     rl.setTargetFPS(60);
 
-    // Media must be loaded after window init
-    // rl.initAudioDevice();
-    // const music = rl.loadMusicStream("resources/LeeRosevere-ThreeThingsYouNeedtoKnowAboutToday.mp3");
-    // defer rl.closeAudioDevice();
     const logo = rl.Texture.init("resources/logo.png");
     const splash = rl.Texture.init("resources/tsosplash.png");
     const table3 = rl.Texture.init("resources/items/dorms/table_3.png");
@@ -107,12 +98,12 @@ pub fn main() anyerror!void {
 
                 if (rl.isKeyPressed(rl.KeyboardKey.key_a)) {
                     camera.position = rl.Vector3.init(-90.0, 20.0, 90.0);
-                    get_rotate = Rotations.changeRotions(Rotations.left);
-                    dbg.print("Roate right\n", .{});
+                    rotation_manger = Rotations.changeRotions(Rotations.left);
+                    dbg.print("Rotate right\n", .{});
                 } else if (rl.isKeyPressed(rl.KeyboardKey.key_d)) {
                     camera.position = rl.Vector3.init(90.0, 20.0, 90.0);
-                    get_rotate = Rotations.changeRotions(Rotations.right);
-                    dbg.print("Roate left\n", .{});
+                    rotation_manger = Rotations.changeRotions(Rotations.right);
+                    dbg.print("Rotate left\n", .{});
                 }
 
                 // camera.update(rl.CameraMode.camera_custom);
@@ -145,7 +136,7 @@ pub fn main() anyerror!void {
                 defer camera.end();
 
                 rl.drawPlane(floorLevel, rl.Vector2.init(64, 64), rl.Color.dark_green);
-                switch (get_rotate) {
+                switch (rotation_manger) {
                     .right => rl.drawBillboard(camera, table4, itemStatic, 2.0, rl.Color.white),
                     .left => rl.drawBillboard(camera, table3, itemStatic, 2.0, rl.Color.white),
                 }
