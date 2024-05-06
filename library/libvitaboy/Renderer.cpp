@@ -251,7 +251,6 @@ static void BlendVertices()
 
 static void DrawMeshes()
 {
-    //glPointSize(2.0);
     glColor3f(1.0, 1.0, 1.0);
     glPushMatrix();
     glLoadIdentity();

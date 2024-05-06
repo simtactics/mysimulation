@@ -1,19 +1,35 @@
 /*
-    libvitaboy - Open source Openrl TSO character animation library
+    Special thanks to:
+    libvitaboy - Open source OpenGL TSO character animation library
     Renderer.cpp - Copyright (c) 2012 Niotso Project <http://niotso.org/>
     Author(s): Fatbag <X-Fi6@phppoll.org>
+*/
 
-    Permission to use, copy, modify, and/or distribute this software for any
-    purpose with or without fee is hereby granted, provided that the above
-    copyright notice and this permission notice appear in all copies.
+/*
+    Instructions:
+    You must have the following files in the same directory as the Renderer binary:
 
-    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-    WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-    ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-    ACTION OF CONTRACT, NErlIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+    Skeleton:
+    * skeleton.skel ("adult.skel" in ./avatardata/skeletons/)
+
+    Meshes:
+    * body.mesh (pick one from ./avatardata/bodies/meshes/)
+    * head.mesh (pick one from ./avatardata/heads/meshes/)
+    * lhand.mesh (pick one from ./avatardata/hands/meshes/)
+    * rhand.mesh (pick one from ./avatardata/hands/meshes/)
+
+    Textures:
+    * body.jpg (pick one from ./avatardata/bodies/textures/)
+    * head.jpg (pick one from ./avatardata/heads/textures/)
+    * hand.jpg (pick one from ./avatardata/hands/textures/)
+
+    Animation:
+    * animation.anim (pick one from ./avatardata/animations/)
+
+    ==== Controls ====
+    1: Toggle skeleton
+    2: Toggle the mesh
+    n: Animate the character
 */
 #include "raylib.h"
 #include "raymath.h"        // Required for: Vector3, Quaternion and Matrix functionality

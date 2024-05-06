@@ -17,15 +17,14 @@
 */
 
 #ifdef _WIN32
-#include <windows.h>
+    #include <windows.h>
 #else
-#define APIENTRY
+    #define APIENTRY
 #endif
 
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <stdint.h>
-//#include <GL/glext.h>
 
 typedef struct {
     const char *__restrict Title;
