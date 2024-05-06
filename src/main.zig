@@ -1,11 +1,15 @@
 const std = @import("std");
 const rl = @import("raylib");
 const world = @import("world.zig");
+const core = @cImport({
+    @cInclude("./core.h");
+});
 
 const GameScreen = enum {
     login,
     cas,
-    world,
+    map,
+    lot,
 };
 
 // Still in the proof of concept phase, don't mind the mess
@@ -27,12 +31,13 @@ pub fn main() anyerror!void {
         .projection = rl.CameraProjection.camera_perspective,
     };
 
+    const floorLevel = rl.Vector3.init(0.0, 0.0, 0.0);
+
     // const planePosition = rl.Vector3.init(0.0, 0.0, 0.0);
 
     // var textBox = rl.Rectangle.init(screen_width / 2.0 - 100, 180, 50);
     // var mouseOnText = false;
     // var letterCount = 0;
-
     rl.setTargetFPS(60);
 
     // Media must be loaded after window init
@@ -58,8 +63,10 @@ pub fn main() anyerror!void {
             },
             //
             .cas => {},
-            .world => {
+            .map => {},
+            .lot => {
                 camera.update(rl.CameraMode.camera_third_person);
+                try world.load_floors("resources/empty_lot_mysim.json");
             },
         }
         // ------------------
@@ -81,14 +88,13 @@ pub fn main() anyerror!void {
             // Skip this for now
             .cas => {},
             // "World" (i.e. lot view)
-            .world => {
+            .lot => {
                 rl.clearBackground(rl.Color.ray_white);
 
                 camera.begin();
                 defer camera.end();
 
-                // rl.drawPlane(planePosition, rl.Vector2.init(2, 2), rl.Color.green);
-                try world.draw_floors("resources/empty_lot_mysim.json");
+                rl.drawPlane(floorLevel, rl.Vector2.init(2, 2), rl.Color.green);
                 rl.drawGrid(64, 1.0);
             },
         }

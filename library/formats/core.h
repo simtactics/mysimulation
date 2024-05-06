@@ -1,0 +1,7 @@
+#include "iff/iff.h"
+#include "iff/iffparser.h"
+#include "far/far.h"
+#include "far/config.h"
+#include "xa/read_xa.h"
+#include "utk/read_utk.h"
+#include "xa/read_xa.h"

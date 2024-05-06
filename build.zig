@@ -25,9 +25,7 @@ pub fn build(b: *std.Build) void {
     // C headers
     exe.linkLibC();
     exe.linkLibCpp();
-    exe.addIncludePath(.{ .path = "./library/formats" });
-    exe.addIncludePath(.{ .path = "./library/libvitaboy" });
-    exe.addIncludePath(.{ .path = "./tools" });
+    exe.addIncludePath(.{ .path = "./library" });
 
     // Modules
     const raylib_dep = b.dependency("raylib-zig", .{
