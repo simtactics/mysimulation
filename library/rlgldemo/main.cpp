@@ -135,8 +135,8 @@ static Mesh CreateMesh(const Mesh_t& tso_mesh)
         ray_mesh.texcoords[j * 2 + 1] = -tso_mesh.TransformedVertexData[j].TextureCoord.v;
         //normals
         ray_mesh.normals[j * 3 + 0] = tso_mesh.TransformedVertexData[j].NormalCoord.x;
-        ray_mesh.normals[j * 3 + 0] = tso_mesh.TransformedVertexData[j].NormalCoord.y;
-        ray_mesh.normals[j * 3 + 0] = tso_mesh.TransformedVertexData[j].NormalCoord.z;
+        ray_mesh.normals[j * 3 + 1] = tso_mesh.TransformedVertexData[j].NormalCoord.y;
+        ray_mesh.normals[j * 3 + 2] = tso_mesh.TransformedVertexData[j].NormalCoord.z;
     }
     //indices
     for (unsigned j = 0; j < ray_mesh.triangleCount; j++)
@@ -151,7 +151,7 @@ static Mesh CreateMesh(const Mesh_t& tso_mesh)
     }
 
     // Upload mesh data from CPU (RAM) to GPU (VRAM) memory
-    UploadMesh(&ray_mesh, true); //check the dynamic flag if we have to keep creating the mesh
+    //UploadMesh(&ray_mesh, true); //check the dynamic flag if we have to keep creating the mesh
     return ray_mesh;
 }
 
@@ -227,27 +227,28 @@ static void TransformVertices(Bone_t& Bone)
     }
 
     if(BoneIndex < Mesh.BindingCount){
-        for(unsigned i=0; i<Mesh.BoneBindings[BoneIndex].RealVertexCount; i++){
+        for(unsigned i=0; i<Mesh.BoneBindings[BoneIndex].RealVertexCount; i++)
+        {
             unsigned VertexIndex = Mesh.BoneBindings[BoneIndex].FirstRealVertex + i;
             Vertex_t& RelativeVertex = Mesh.VertexData[VertexIndex];
             Vertex_t& AbsoluteVertex = Mesh.TransformedVertexData[VertexIndex];
 
-            
             rlTranslatef(RelativeVertex.Coord.x, RelativeVertex.Coord.y, RelativeVertex.Coord.z);
-            const Matrix matModelView = rlGetMatrixModelview();
+            const Matrix matModelView = rlGetMatrixTransform();
             const Vector3 vertex = Vector3Transform(Vector3{ 0.f, 0.f, 0.f }, matModelView);
             AbsoluteVertex.Coord.x = vertex.x;
             AbsoluteVertex.Coord.y = vertex.y;
             AbsoluteVertex.Coord.z = vertex.z;
             rlTranslatef(-RelativeVertex.Coord.x, -RelativeVertex.Coord.y, -RelativeVertex.Coord.z);
         }
-        for(unsigned i=0; i<Mesh.BoneBindings[BoneIndex].BlendVertexCount; i++){
+        for(unsigned i=0; i<Mesh.BoneBindings[BoneIndex].BlendVertexCount; i++)
+        {
             unsigned VertexIndex = Mesh.RealVertexCount + Mesh.BoneBindings[BoneIndex].FirstBlendVertex + i;
             Vertex_t& RelativeVertex = Mesh.VertexData[VertexIndex];
             Vertex_t& AbsoluteVertex = Mesh.TransformedVertexData[VertexIndex];
 
             rlTranslatef(RelativeVertex.Coord.x, RelativeVertex.Coord.y, RelativeVertex.Coord.z);
-            const Matrix matModelView = rlGetMatrixModelview();
+            const Matrix matModelView = rlGetMatrixTransform();
             const Vector3 vertex = Vector3Transform(Vector3{ 0.f, 0.f, 0.f }, matModelView);
             AbsoluteVertex.Coord.x = vertex.x;
             AbsoluteVertex.Coord.y = vertex.y;
@@ -271,7 +272,8 @@ static void BlendVertices()
 {
     for(unsigned i=0; i<MeshCount; i++){
         Mesh_t& Mesh = Meshes[i];
-        for(unsigned i=0; i<Mesh.BlendVertexCount; i++){
+        for(unsigned i=0; i<Mesh.BlendVertexCount; i++)
+        {
             Vertex_t& BlendVertex = Mesh.TransformedVertexData[Mesh.RealVertexCount + i];
             float Weight = BlendVertex.BlendData.Weight;
             Vertex_t& RealVertex = Mesh.TransformedVertexData[BlendVertex.BlendData.OtherVertex];
@@ -295,6 +297,47 @@ static void CreateMeshes()
     {
         ray_meshes[i] = CreateMesh(Meshes[i]);
     }
+}
+
+static void UpdateMeshes(Model& model)
+{
+    rlPushMatrix();
+    rlLoadIdentity();
+    TransformVertices(Skeleton.Bones[0]);
+    rlPopMatrix();
+    BlendVertices();
+
+    for (unsigned i = 0; i < MeshCount; i++)
+    {
+        Mesh&   ray_mesh = model.meshes[i];
+        Mesh_t& tso_mesh = Meshes[i];
+
+        //vertex data
+        for (unsigned j = 0; j < ray_mesh.vertexCount; j++)
+        {
+            //vertices?
+            ray_mesh.vertices[j * 3 + 0] = tso_mesh.TransformedVertexData[j].Coord.x;
+            ray_mesh.vertices[j * 3 + 1] = tso_mesh.TransformedVertexData[j].Coord.y;
+            ray_mesh.vertices[j * 3 + 2] = tso_mesh.TransformedVertexData[j].Coord.z;
+            //coords
+            ray_mesh.texcoords[j * 2 + 0] = tso_mesh.TransformedVertexData[j].TextureCoord.u;
+            ray_mesh.texcoords[j * 2 + 1] = -tso_mesh.TransformedVertexData[j].TextureCoord.v;
+            //normals
+            ray_mesh.normals[j * 3 + 0] = tso_mesh.TransformedVertexData[j].NormalCoord.x;
+            ray_mesh.normals[j * 3 + 1] = tso_mesh.TransformedVertexData[j].NormalCoord.y;
+            ray_mesh.normals[j * 3 + 2] = tso_mesh.TransformedVertexData[j].NormalCoord.z;
+        }
+
+        // from UploadMesh
+        //mesh->vboId[0] = 0;     // Vertex buffer: positions
+        //mesh->vboId[1] = 0;     // Vertex buffer: texcoords
+        //mesh->vboId[2] = 0;     // Vertex buffer: normals
+        UpdateMeshBuffer(ray_mesh, 0, ray_mesh.vertices, sizeof(float) * ray_mesh.vertexCount * 3, 0);
+        UpdateMeshBuffer(ray_mesh, 1, ray_mesh.texcoords, sizeof(float) * ray_mesh.vertexCount * 2, 0);
+        UpdateMeshBuffer(ray_mesh, 2, ray_mesh.normals, sizeof(float) * ray_mesh.vertexCount * 3, 0);
+
+    }
+    rlPopMatrix();
 }
 
 static void DrawMeshes()
@@ -457,23 +500,21 @@ static Model LoadModelTSO()
         ray_mesh.indices = (unsigned short*)RL_CALLOC(ray_mesh.triangleCount * 3, sizeof(unsigned short));
 
         // Process all mesh faces
+        // TODO: extract this in seperate function
         //vertex data
         for (unsigned j = 0; j < ray_mesh.vertexCount; j++)
         {
             //vertices?
-            //ray_mesh.vertices[j * 3 + 0] = tso_mesh.TransformedVertexData[j].Coord.x;
-            //ray_mesh.vertices[j * 3 + 1] = tso_mesh.TransformedVertexData[j].Coord.y;
-            //ray_mesh.vertices[j * 3 + 2] = tso_mesh.TransformedVertexData[j].Coord.z;
-            ray_mesh.vertices[j * 3 + 0] = tso_mesh.VertexData[j].Coord.x;
-            ray_mesh.vertices[j * 3 + 1] = tso_mesh.VertexData[j].Coord.y;
-            ray_mesh.vertices[j * 3 + 2] = tso_mesh.VertexData[j].Coord.z; //offset for now so we can see them
+            ray_mesh.vertices[j * 3 + 0] = tso_mesh.TransformedVertexData[j].Coord.x;
+            ray_mesh.vertices[j * 3 + 1] = tso_mesh.TransformedVertexData[j].Coord.y;
+            ray_mesh.vertices[j * 3 + 2] = tso_mesh.TransformedVertexData[j].Coord.z;
             //coords
             ray_mesh.texcoords[j * 2 + 0] = tso_mesh.TransformedVertexData[j].TextureCoord.u;
             ray_mesh.texcoords[j * 2 + 1] = -tso_mesh.TransformedVertexData[j].TextureCoord.v;
             //normals
             ray_mesh.normals[j * 3 + 0] = tso_mesh.TransformedVertexData[j].NormalCoord.x;
-            ray_mesh.normals[j * 3 + 0] = tso_mesh.TransformedVertexData[j].NormalCoord.y;
-            ray_mesh.normals[j * 3 + 0] = tso_mesh.TransformedVertexData[j].NormalCoord.z;
+            ray_mesh.normals[j * 3 + 1] = tso_mesh.TransformedVertexData[j].NormalCoord.y;
+            ray_mesh.normals[j * 3 + 2] = tso_mesh.TransformedVertexData[j].NormalCoord.z;
         }
         //indices
         for (unsigned j = 0; j < ray_mesh.triangleCount; j++)
@@ -543,8 +584,6 @@ int main(void)
     assert( LoadMeshes() );
     CreateMeshes();
 
-    TransformVertices(Skeleton.Bones[0]);
-    BlendVertices();
     Model model = LoadModelTSO();
 
     printf("======================================\n");
@@ -577,7 +616,8 @@ int main(void)
             if (IsKeyDown(KEY_N)) { AdvanceFrame(Skeleton, Animation, dt); }
         }
 
-        //rlClearScreenBuffers(); //Clear the screen and the depth buffer
+        rlClearScreenBuffers(); //Clear the screen and the depth buffer
+        UpdateMeshes(model);
 
         BeginDrawing();
         {
@@ -585,15 +625,11 @@ int main(void)
             BeginMode3D(camera);
             {
                 DrawGrid(10, 5.0f);
-
                 //Avatar
                 {
                     if (ShowMesh)
                     {
-                        //rlEnableWireMode();
-                        //rlColor3f(1.0, 1.0, 1.0);
-                        //DrawMeshes();
-                        //rlDisableWireMode();
+                        // draw the model
                         const Vector3 position{ 0.0f, 0.0f, 0.0f };
                         const float scale = 1.f;
                         DrawModel(model, position, scale, WHITE);
