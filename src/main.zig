@@ -24,14 +24,15 @@ pub fn main() anyerror!void {
     var frame_counter: i32 = 0;
 
     var camera = rl.Camera3D{
-        .position = rl.Vector3.init(0.0, 10.0, 10.0),
+        .position = rl.Vector3.init(0.0, 20.0, 20.0),
         .target = rl.Vector3.init(0, 0.0, 0),
         .up = rl.Vector3.init(0, 1.0, 0),
-        .fovy = 60,
+        .fovy = 30,
         .projection = rl.CameraProjection.camera_perspective,
     };
 
     const floorLevel = rl.Vector3.init(0.0, 0.0, 0.0);
+    const itemStatic = rl.Vector3.init(0.0, 2.0, 0.0);
 
     // const planePosition = rl.Vector3.init(0.0, 0.0, 0.0);
 
@@ -46,8 +47,10 @@ pub fn main() anyerror!void {
     // defer rl.closeAudioDevice();
     const logo = rl.Texture.init("resources/logo.png");
     const splash = rl.Texture.init("resources/tsosplash.png");
+    const table4 = rl.Texture.init("resources/items/dorms/table_4.png");
     defer rl.unloadTexture(splash);
     defer rl.unloadTexture(logo);
+    defer rl.unloadTexture(table4);
 
     while (!rl.windowShouldClose()) {
 
@@ -59,14 +62,13 @@ pub fn main() anyerror!void {
             .login => {
                 frame_counter += 1;
 
-                if (frame_counter > 120) current_screen = .world;
+                if (frame_counter > 120) current_screen = .lot;
             },
             //
             .cas => {},
             .map => {},
             .lot => {
-                camera.update(rl.CameraMode.camera_third_person);
-                try world.load_floors("resources/empty_lot_mysim.json");
+                // camera.update(rl.CameraMode.camera_custom);
             },
         }
         // ------------------
@@ -87,15 +89,17 @@ pub fn main() anyerror!void {
             },
             // Skip this for now
             .cas => {},
+            .map => {},
             // "World" (i.e. lot view)
             .lot => {
-                rl.clearBackground(rl.Color.ray_white);
+                rl.clearBackground(rl.Color.sky_blue);
 
                 camera.begin();
                 defer camera.end();
 
-                rl.drawPlane(floorLevel, rl.Vector2.init(2, 2), rl.Color.green);
-                rl.drawGrid(64, 1.0);
+                rl.drawPlane(floorLevel, rl.Vector2.init(64, 64), rl.Color.dark_green);
+                rl.drawBillboard(camera, table4, itemStatic, 2.0, rl.Color.white);
+                // rl.drawGrid(64, 1.0);
             },
         }
 
