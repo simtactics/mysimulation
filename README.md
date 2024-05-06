@@ -64,7 +64,7 @@ Further details on building can be found at [compiling.md](./docs/compiling.md).
 They're many ways you can contribute to My Simulation such as trying things out, filing bugs, and joining in the discussion!
 
 - How to Contribute (coming soon)
-- [Pull Requests](https://github.com/tonytins/mysimulatione/pulls): [Open](https://github.com/tonytins/mysimulatione/pulls)/[Closed](https://github.com/tonytins/mysimulatione/issues?q=is%3Apr+is%3Aclosed)
+- [Pull Requests]([https://github.com/tonytins/mysimulatione/pulls](https://github.com/tonytins/mysimulation/pulls)): [Open](https://github.com/tonytins/mysimulation/pulls)/[Closed](https://github.com/tonytins/mysimulation/pulls?q=is%3Apr+is%3Aclosed)
 
 ## License
 
