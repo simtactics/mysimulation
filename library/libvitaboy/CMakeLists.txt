@@ -46,8 +46,8 @@ else()
     #### Static library (uncomment to build)
     add_library(libvitaboy_static STATIC ${LIBVITABOY_SOURCES})
     set_target_properties(libvitaboy_static PROPERTIES
-    OUTPUT_NAME "vitaboy"
-    CLEAN_DIRECT_OUTPUT 1)
+        OUTPUT_NAME "vitaboy"
+        CLEAN_DIRECT_OUTPUT 1)
 
     set(VITABOY_LIB libvitaboy_static)
 endif() # BUILD_SHARED_LIBS

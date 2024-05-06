@@ -141,9 +141,9 @@ endif()
 add_subdirectory(formats)
 add_subdirectory(libgldemo)
 add_subdirectory(libvitaboy)
+add_subdirectory(tools)
 
 if(BUILD_EXAMPLES)
-    add_subdirectory(renderdemo_ray)
     add_subdirectory(rlgldemo)
 endif()
 

@@ -1,0 +1,1 @@
+gcc -Wall -Wextra -Wabi -pedantic -fno-exceptions -m32 -o TSOSimulatorClient.exe TSOSimulatorClient.cpp -mconsole
