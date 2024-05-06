@@ -1,36 +1,41 @@
 # My Simulation
 
 <p align="center">
-<img title="" src="resources/logo.png" width="250" alt=""">
+<img title="" src="resources/logo.png" width="150" alt=""">
+</p>
+<p align="center">
+<img alt="GitHub License" src="https://img.shields.io/github/license/tonytins/mysimulation"> <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues-pr/tonytins/mysimulation"> <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/tonytins/mysimulation/build">
 </p>
 
-My Simulation is intended to be an experimental reimplementation of The Sims Online written in Zig that's based on RayLab and NioTSO's C libraries. It uses FreeSO's API server for handling backend.
+My Simulation is an **experimental** open source multiplayer game based upon The Sims Online. It attempts to mimic the original game as closely as possible while extending it with new features.
+
+The client is written in Zig and uses RayLab game engine with NioTSO's libraries for interacting with The Sims' proprietary formats. FreeSO's API server is used for the backend.
 
 ## Motivation
 
-Although an established reimplementation project already exists, it has excess legacy baggage due to it originally being based on .NET Framework 3.5 and XNA, causing plenty of performance issues and accessibility remains limited in its current form. (Trust me, I've tried). Meanwhile, NioTSO's foundation remains solid, even though it was never finished. The client perfectly simulates a loading screen, plus it can render Sims and objects flawlessly.
-
-The problem is C is, well, C. ¯\\\_(ツ)\_/¯ Accessing NioTSO's code in safer languages like Go or Rust has been historically difficult. While Zig is still in its infancy, the language's FFI is perfectly capable of directly accessing C headers without jumping through hoops. Making it well worth giving it a try. Although Zig itself has not yet hit 1.0, the RayLib game engine is mature.
-
-Will this succeed? *I have no idea*. I'm not much of a game developer, but that hasn't stopped me from dreaming. Your help is most welcome. My goal is to at least create a successful lot server for endless P2P fun.
-
-## To do
-
-- [ ] Rewrite C++ header files
-
-- [ ] Communicate with FreeSO-based API server
-
-- [ ] Write Vitaboy renderer in Zig
+See [motivation.md](./docs/motivation.md) for motivation and vision.
 
 ## Requirements
 
+### Prerequisites
+
 - The Sims Online
 - Client
-	- OpenGL
-	- [Zig](https://ziglang.org/) 0.11 or newer
+  - [Zig](https://ziglang.org/) 0.11+
 - API Server
-	- [.NET](https://dotnet.microsoft.com/en-us/) 8.0 or newer
-	- [Mockoon](https://mockoon.com/) for mock APIs
+  - [.NET](https://dotnet.microsoft.com/en-us/) 8.0+
+  - [Mockoon](https://mockoon.com/) for mock APIs (Optional)
+- Libaries & Tools
+  - TBA
+
+### System Requirements
+
+| Platform | Version | Tier |
+| --- | --- | --- |
+| Windows | 10+ | 1 |
+| Linux | 3.16+ | 1 |
+| macOS | 11.0+ | 1 |
+| FreeBSD | 12.0+ | 2 |
 
 ## Getting Started
 
@@ -46,18 +51,36 @@ Will this succeed? *I have no idea*. I'm not much of a game developer, but that 
    cd mysimulation
    ```
 
-3. **Run the Examples**: Execute the code examples using the Zig compiler. For instance:
+3. **Run the Client**:
 
    ```bash
    zig build run
    ```
 
-4. **Experiment and Learn**: Modify the code, try out different constructs, and see how Zig behaves.
+Further details on building can be found at [compiling.md](./docs/compiling.md).
+
+## Contributing
+
+They're many ways you can contribute to My Simulation such as trying things out, filing bugs, and joining in the discussion!
+
+- How to Contribute (coming soon)
+- [Pull Requests](https://github.com/tonytins/mysimulatione/pulls): [Open](https://github.com/tonytins/mysimulatione/pulls)/[Closed](https://github.com/tonytins/mysimulatione/issues?q=is%3Apr+is%3Aclosed)
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0 (GPL-3.0). The full text of the license is available within the project repository, accessible through this [provided link](./LICENSE). Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## Disclaimer
 
-My Simulation is not in any way affiliated with Electronic Arts, Maxis or The Sims, it is an unofficial community run project
+My Simulation is not in any way affiliated with Electronic Arts, Maxis or The Sims, it is an unofficial community run project.

@@ -1,0 +1,6 @@
+height = 800
+width = 600
+
+[branding]
+logo = "logo.png"
+background = "tsosplash.png"
