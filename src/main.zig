@@ -1,9 +1,8 @@
 const std = @import("std");
 const rl = @import("raylib");
 const world = @import("world.zig");
-const core = @cImport({
-    @cInclude("./core.h");
-});
+
+const dbg = std.debug;
 
 const GameScreen = enum {
     login,
@@ -22,6 +21,8 @@ pub fn main() anyerror!void {
 
     var current_screen: GameScreen = .login;
     var frame_counter: i32 = 0;
+
+    // var zoom: f32 = 10;
 
     var camera = rl.Camera3D{
         .position = rl.Vector3.init(0.0, 20.0, 90.0),
@@ -68,6 +69,28 @@ pub fn main() anyerror!void {
             .cas => {},
             .map => {},
             .lot => {
+                const zoom_increment = 5;
+
+                if (rl.isKeyPressed(rl.KeyboardKey.key_equal)) {
+                    if (camera.fovy <= 10 or camera.fovy >= 20) {
+                        camera.fovy += zoom_increment;
+                    }
+
+                    dbg.print("Zoom level: {any}\n", .{
+                        camera.fovy,
+                    });
+                }
+
+                if (rl.isKeyPressed(rl.KeyboardKey.key_minus)) {
+                    if (camera.fovy <= 10 or camera.fovy >= 2.0) {
+                        camera.fovy -= zoom_increment;
+                    }
+
+                    dbg.print("Zoom level: {any}\n", .{
+                        camera.fovy,
+                    });
+                }
+
                 // camera.update(rl.CameraMode.camera_custom);
             },
         }
@@ -90,7 +113,7 @@ pub fn main() anyerror!void {
             // Skip this for now
             .cas => {},
             .map => {},
-            // "World" (i.e. lot view)
+            // Low view (i.e. world)
             .lot => {
                 rl.clearBackground(rl.Color.sky_blue);
 
