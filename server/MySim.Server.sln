@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSO.Server.Common", "FSO.Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSO.Server.Database", "FSO.Server.Database\FSO.Server.Database.csproj", "{430ACD60-E798-43F0-AD61-8B5A35DF6AB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSO.Server.Debug", "FSO.Server.Debug\FSO.Server.Debug.csproj", "{7296CCEC-F459-4071-A9D2-9A07DCC29210}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSO.Server.Domain", "FSO.Server.Domain\FSO.Server.Domain.csproj", "{A1D9ABA0-0105-436D-8F8C-2418DB768080}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSO.Server.Protocol", "FSO.Server.Protocol\FSO.Server.Protocol.csproj", "{A08ADE32-27E2-44F4-BC52-11A16C56BAA8}"
@@ -39,10 +37,6 @@ Global
 		{430ACD60-E798-43F0-AD61-8B5A35DF6AB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{430ACD60-E798-43F0-AD61-8B5A35DF6AB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{430ACD60-E798-43F0-AD61-8B5A35DF6AB2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7296CCEC-F459-4071-A9D2-9A07DCC29210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7296CCEC-F459-4071-A9D2-9A07DCC29210}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7296CCEC-F459-4071-A9D2-9A07DCC29210}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7296CCEC-F459-4071-A9D2-9A07DCC29210}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A1D9ABA0-0105-436D-8F8C-2418DB768080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A1D9ABA0-0105-436D-8F8C-2418DB768080}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1D9ABA0-0105-436D-8F8C-2418DB768080}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,5 +1,6 @@
 {
     "house": {
+        "version": 3,
         "size": 64,
         "category": 0,
         "world": {

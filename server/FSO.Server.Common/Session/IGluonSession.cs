@@ -1,4 +1,4 @@
-﻿using FSO.Common.Security;
+﻿/* using FSO.Common.Security;
 using FSO.Server.Framework.Aries;
 
 namespace FSO.Server.Framework.Gluon
@@ -10,3 +10,4 @@ namespace FSO.Server.Framework.Gluon
         string InternalHost { get; }
     }
 }
+ */
