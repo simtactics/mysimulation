@@ -12,12 +12,42 @@ const GameScreen = enum {
     lot,
 };
 
-const Rotations = enum {
-    left,
-    right,
+//We start that NorthWest so it is easy to determine the flip
+const CardinalDirection = enum {
+    NorthWest, // 0, sprite 1
+    NorthEast, // 1, sprite 1 flip
+    SouthEast, // 2, sprite 2
+    SouthWest, // 3, sprite 2 flip
+};
 
-    pub fn init(self: Rotations) Rotations {
-        return self;
+const Rotations = enum {
+    left, // 0
+    right, // 1
+};
+
+const RotationManager = struct {
+    Direction: CardinalDirection,
+    pub fn Rotate(self: *RotationManager, rotation: Rotations) void {
+        //rotate the direction by 90 degrees
+        var direction_index = @as(i8, @intFromEnum(self.Direction));
+        switch (rotation) {
+            .left => {
+                direction_index = direction_index - 1;
+            },
+            .right => {
+                direction_index = direction_index + 1;
+            },
+        }
+        // Circle around if out of bounds
+        if (direction_index < 0) {
+            self.Direction = CardinalDirection.SouthWest;
+        } else if (direction_index > 3) {
+            self.Direction = CardinalDirection.NorthWest;
+        } else {
+            self.Direction = @as(CardinalDirection, @enumFromInt(direction_index));
+        }
+        //Result
+        dbg.print("Orientation: {any}\n", .{self.Direction});
     }
 };
 
@@ -32,6 +62,9 @@ pub fn main() anyerror!void {
     var current_screen: GameScreen = .login;
     var frame_counter: i32 = 0;
 
+    // NOTE: jip
+    // I don't think we can get away with using the built-in camera
+    // We need pixel perfect isometric camera
     var lot_camera = rl.Camera3D{
         .position = rl.Vector3.init(-90.0, 20.0, 90.0),
         .target = rl.Vector3.init(0, 0.0, 0),
@@ -50,21 +83,23 @@ pub fn main() anyerror!void {
 
     const floorLevel = rl.Vector3.init(0.0, 0.0, 0.0);
     const itemStatic = rl.Vector3.init(0.0, 1.0, 0.0);
+    const itemStaticSize = rl.Vector2.init(2.0, 2.0);
 
-    var rotation_manager = Rotations.init(Rotations.left);
-
+    var rotation_manager = RotationManager{ .Direction = CardinalDirection.SouthEast };
     rl.setTargetFPS(60);
 
     const logo = rl.Texture.init("resources/logo.png");
     const splash = rl.Texture.init("resources/tsosplash.png");
-    const table3 = rl.Texture.init("resources/items/dorm/table/table_1.png");
-    const table4 = rl.Texture.init("resources/items/dorm/table/table_2.png");
+    const chair1 = rl.Texture.init("resources/items/dorm/chair/chair_1.png");
+    const chair1_rect = rl.Rectangle.init(0, 0, @as(f32, @floatFromInt(-chair1.width)), @as(f32, @floatFromInt(chair1.height)));
+    const chair2 = rl.Texture.init("resources/items/dorm/chair/chair_2.png");
+    const chair2_rect = rl.Rectangle.init(0, 0, @as(f32, @floatFromInt(-chair2.width)), @as(f32, @floatFromInt(chair2.height)));
     const city = rl.loadImage("resources/cities/city_0100/elevation.png");
     // const city_texture = rl.Texture.init("resources/cities/city_0100/vertexcolor.png");
     defer rl.unloadTexture(splash);
     defer rl.unloadTexture(logo);
-    defer rl.unloadTexture(table4);
-    defer rl.unloadTexture(table3);
+    defer rl.unloadTexture(chair1);
+    defer rl.unloadTexture(chair2);
     defer rl.unloadImage(city);
 
     const mesh = rl.genMeshHeightmap(city, rl.Vector3.init(16, 8, 16));
@@ -89,13 +124,13 @@ pub fn main() anyerror!void {
             .map => {},
             .lot => {
                 const zoom_increment = 5;
-
+                // rotate with keyboard
                 if (rl.isKeyPressed(rl.KeyboardKey.key_s)) {
                     if (lot_camera.fovy == 10) {
                         lot_camera.fovy += zoom_increment;
                     }
 
-                    dbg.print("Zoom level: {any}\n", .{
+                    dbg.print("Zoom level: {d}\n", .{
                         lot_camera.fovy,
                     });
                 } else if (rl.isKeyPressed(rl.KeyboardKey.key_w)) {
@@ -103,19 +138,28 @@ pub fn main() anyerror!void {
                         lot_camera.fovy -= zoom_increment;
                     }
 
-                    dbg.print("Zoom level: {any}\n", .{
+                    dbg.print("Zoom level: {d}\n", .{
                         lot_camera.fovy,
                     });
                 }
-
+                // roate with scrollwheel
+                const mouse_wheel_y = std.math.clamp(-rl.getMouseWheelMove(), -1, 1) * zoom_increment;
+                if (mouse_wheel_y != 0) {
+                    const zoom_min = 10;
+                    const zoom_max = 25;
+                    lot_camera.fovy = std.math.clamp(lot_camera.fovy + mouse_wheel_y, zoom_min, zoom_max);
+                    dbg.print("Zoom level: {d}\n", .{
+                        lot_camera.fovy,
+                    });
+                }
                 if (rl.isKeyPressed(rl.KeyboardKey.key_a)) {
                     lot_camera.position = rl.Vector3.init(-90.0, 20.0, 90.0);
-                    rotation_manager = Rotations.init(Rotations.left);
-                    dbg.print("Rotate right\n", .{});
+                    rotation_manager.Rotate(Rotations.left);
+                    dbg.print("Rotate left\n", .{});
                 } else if (rl.isKeyPressed(rl.KeyboardKey.key_d)) {
                     lot_camera.position = rl.Vector3.init(90.0, 20.0, 90.0);
-                    rotation_manager = Rotations.init(Rotations.right);
-                    dbg.print("Rotate left\n", .{});
+                    rotation_manager.Rotate(Rotations.right);
+                    dbg.print("Rotate right\n", .{});
                 }
 
                 // camera.update(rl.CameraMode.camera_custom);
@@ -155,9 +199,19 @@ pub fn main() anyerror!void {
                 defer lot_camera.end();
 
                 rl.drawPlane(floorLevel, rl.Vector2.init(64, 64), rl.Color.dark_green);
-                switch (rotation_manager) {
-                    .right => rl.drawBillboard(lot_camera, table4, itemStatic, 2.0, rl.Color.white),
-                    .left => rl.drawBillboard(lot_camera, table3, itemStatic, 2.0, rl.Color.white),
+                switch (rotation_manager.Direction) {
+                    .NorthWest => {
+                        rl.drawBillboardRec(lot_camera, chair1, chair1_rect, itemStatic, itemStaticSize, rl.Color.white);
+                    },
+                    .NorthEast => {
+                        rl.drawBillboard(lot_camera, chair1, itemStatic, 2.0, rl.Color.white);
+                    },
+                    .SouthEast => {
+                        rl.drawBillboard(lot_camera, chair2, itemStatic, 2.0, rl.Color.white);
+                    },
+                    .SouthWest => {
+                        rl.drawBillboardRec(lot_camera, chair2, chair2_rect, itemStatic, itemStaticSize, rl.Color.white);
+                    },
                 }
 
                 // rl.drawGrid(64, 1.0);
