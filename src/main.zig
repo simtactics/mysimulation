@@ -7,9 +7,9 @@ const dbg = std.debug;
 
 const GameScreen = enum {
     login,
-    cas,
-    map,
-    lot,
+    cas, // Create-A-Sim
+    map, // city screen
+    lot, // world view
 };
 
 //We start that NorthWest so it is easy to determine the flip
@@ -27,7 +27,12 @@ const Rotations = enum {
 
 const RotationManager = struct {
     Direction: CardinalDirection,
-    pub fn Rotate(self: *RotationManager, rotation: Rotations) void {
+
+    pub fn init(self: RotationManager) RotationManager {
+        return self;
+    }
+
+    pub fn rotate(self: *RotationManager, rotation: Rotations) void {
         //rotate the direction by 90 degrees
         var direction_index = @as(i8, @intFromEnum(self.Direction));
         switch (rotation) {
@@ -51,7 +56,7 @@ const RotationManager = struct {
     }
 };
 
-// Still in the proof of concept phase, don't mind the mess
+/// Still in the proof of concept phase, don't mind the mess
 pub fn main() anyerror!void {
     const screen_width = 800;
     const screen_height = 600;
@@ -85,7 +90,10 @@ pub fn main() anyerror!void {
     const itemStatic = rl.Vector3.init(0.0, 1.0, 0.0);
     const itemStaticSize = rl.Vector2.init(2.0, 2.0);
 
-    var rotation_manager = RotationManager{ .Direction = CardinalDirection.SouthEast };
+    var rotation_manager = RotationManager.init(.{
+        .Direction = CardinalDirection.SouthEast,
+    });
+
     rl.setTargetFPS(60);
 
     const logo = rl.Texture.init("resources/logo.png");
@@ -112,14 +120,13 @@ pub fn main() anyerror!void {
         // Update
         // ------------------
         switch (current_screen) {
-            // Skip straight to CAS (Create-A-Sim) until city server is complete
-            // TODO: Create login window with username, password, and server option
+            // Skip straight to lot view until city server is complete
             .login => {
                 frame_counter += 1;
 
                 if (frame_counter > 120) current_screen = .lot;
             },
-            //
+            // TODO: Write CAS (Create-A-Sim) screen
             .cas => {},
             .map => {},
             .lot => {
@@ -154,12 +161,12 @@ pub fn main() anyerror!void {
                 }
                 if (rl.isKeyPressed(rl.KeyboardKey.key_a)) {
                     lot_camera.position = rl.Vector3.init(-90.0, 20.0, 90.0);
-                    rotation_manager.Rotate(Rotations.left);
-                    dbg.print("Rotate left\n", .{});
+                    rotation_manager.rotate(Rotations.left);
+                    dbg.print("rotate left\n", .{});
                 } else if (rl.isKeyPressed(rl.KeyboardKey.key_d)) {
                     lot_camera.position = rl.Vector3.init(90.0, 20.0, 90.0);
-                    rotation_manager.Rotate(Rotations.right);
-                    dbg.print("Rotate right\n", .{});
+                    rotation_manager.rotate(Rotations.right);
+                    dbg.print("rotate right\n", .{});
                 }
 
                 // camera.update(rl.CameraMode.camera_custom);

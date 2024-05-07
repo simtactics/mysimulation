@@ -1,4 +1,4 @@
-## EA MicroTalk
+# EA MicroTalk
 
 EA MicroTalk (also UTalk or UTK) is a linear-predictive speech codec used in
 various games by Electronic Arts. The earliest known game to use it is
@@ -11,22 +11,22 @@ Docs: http://wiki.niotso.org/UTK
 In this repository, I have created a set of open source (public domain
 via the UNLICENSE) MicroTalk decoders/encoders.
 
-* Use utkdecode to decode Maxis UTK (The Sims Online, SimCity 4).
-* Use utkdecode-bnb to decode PT/M10 (Beasts & Bumpkins).
-* Use utkdecode-fifa to decode FIFA 2001/2002 (PS2) speech samples. This tool
+- Use utkdecode to decode Maxis UTK (The Sims Online, SimCity 4).
+- Use utkdecode-bnb to decode PT/M10 (Beasts & Bumpkins).
+- Use utkdecode-fifa to decode FIFA 2001/2002 (PS2) speech samples. This tool
   supports regular MicroTalk and MicroTalk Revision 3
-  [SCxl files](https://wiki.multimedia.cx/index.php/Electronic_Arts_SCxl).(*)
-* Use utkencode to encode Maxis UTK. (This is the simplest container format and
+  [SCxl files](https://wiki.multimedia.cx/index.php/Electronic_Arts_SCxl).(\*)
+- Use utkencode to encode Maxis UTK. (This is the simplest container format and
   is currently the only one supported for encoding.)
 
-(*) I wasn't able to find any real-world MicroTalk Rev. 3 samples in any games.
+(\*) I wasn't able to find any real-world MicroTalk Rev. 3 samples in any games.
 However, you can transcode a FIFA MicroTalk Rev. 2 file to Rev. 3 using
 [EA's Sound eXchange tool](https://wiki.multimedia.cx/index.php/Electronic_Arts_Sound_eXchange)
 (`sx -mt_blk input.dat -=output.dat`).
 
 ## Compiling
 
-```
+```bash
 gcc -Wall -Wextra -Wno-unused-function -ansi -pedantic -O2 -ffast-math -fwhole-program -g0 -s -static-libgcc -o utkdecode utkdecode.c
 gcc -Wall -Wextra -Wno-unused-function -ansi -pedantic -O2 -ffast-math -fwhole-program -g0 -s -static-libgcc -o utkdecode-fifa utkdecode-fifa.c
 gcc -Wall -Wextra -Wno-unused-function -ansi -pedantic -O2 -ffast-math -fwhole-program -g0 -s -static-libgcc -o utkdecode-bnb utkdecode-bnb.c
