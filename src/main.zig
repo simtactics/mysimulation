@@ -1,6 +1,7 @@
 const std = @import("std");
 const rl = @import("raylib");
 const world = @import("world.zig");
+const nso = @import("niotso.zig");
 
 const dbg = std.debug;
 
@@ -56,8 +57,8 @@ pub fn main() anyerror!void {
 
     const logo = rl.Texture.init("resources/logo.png");
     const splash = rl.Texture.init("resources/tsosplash.png");
-    const table3 = rl.Texture.init("resources/items/dorms/table_3.png");
-    const table4 = rl.Texture.init("resources/items/dorms/table_4.png");
+    const table3 = rl.Texture.init("resources/items/dorm/table/table_1.png");
+    const table4 = rl.Texture.init("resources/items/dorm/table/table_2.png");
     const city = rl.loadImage("resources/cities/city_0100/elevation.png");
     // const city_texture = rl.Texture.init("resources/cities/city_0100/vertexcolor.png");
     defer rl.unloadTexture(splash);

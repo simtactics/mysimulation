@@ -1,0 +1,37 @@
+{
+    "item": {
+        "name": "Dorm End Table",
+        "description": "Created by Judhudson@knology.net",
+        "version": 1,
+        "size": 1,
+        "catagory": "surfaces",
+        "base": "table",
+        "views": {
+            "south": {
+                "texture": "table_1.png",
+                "buffer": "table_1_z.png"
+            },
+            "north": {
+                "texture": "table_2.png",
+                "buffer": "table_2_z.png"
+            }
+        },
+        "motives": {
+            "room": 5,
+            "hunger": 0,
+            "social": 0,
+            "fun": 0,
+            "hygiene": 0,
+            "energy": 0,
+            "bladder": 0
+        },
+        "skills": {
+            "cooking": 5,
+            "mechanical": 0,
+            "charism": 0,
+            "body": 0,
+            "logic": 0,
+            "creativity": 0
+        }
+    }
+}

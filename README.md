@@ -4,7 +4,9 @@
 <img title="" src="resources/logo.png" width="150" alt=""">
 </p>
 <p align="center">
-<img alt="GitHub License" src="https://img.shields.io/github/license/tonytins/mysimulation"> <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues-pr/tonytins/mysimulation"> <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/tonytins/mysimulation/build">
+<img alt="GitHub License" src="https://img.shields.io/github/license/tonytins/mysimulation"> <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/tonytins/mysimulation"> <img alt="GitHub Issues" src="https://img.shields.io/github/issues/tonytins/mysimulation">
+
+
 </p>
 
 My Simulation is an **experimental** open source multiplayer game based upon The Sims Online. It attempts to mimic the original game as closely as possible while extending it with new features.

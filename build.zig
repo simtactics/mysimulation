@@ -16,7 +16,7 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     const exe = b.addExecutable(.{
-        .name = "mysimulation",
+        .name = "mysim",
         .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
@@ -80,6 +80,7 @@ pub fn build(b: *std.Build) void {
     });
 
     exe_unit_tests.linkLibC();
+    exe_unit_tests.linkLibCpp();
     exe_unit_tests.addIncludePath(.{ .path = "./library" });
 
     exe_unit_tests.root_module.addImport("raylib", raylib);

@@ -1,0 +1,3 @@
+Dumbold Voting Machine, by Don Hopkins.
+Special thanks to SimBabes, SimSlice, Will Wright, Ted Selker, John Gilmore, Cindy Cohen, Alan Korn, Bev Harris, Baxter the Chimpanzee, Black Box Voting, EFF, Verified Voting, CalTech-MIT/Voting Technology Project.
+This Sims object is open source software, as all voting machine software should be.
