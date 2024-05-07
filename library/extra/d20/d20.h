@@ -1,10 +1,8 @@
 /** @file d20.h
  *  @brief Implements Dungeons & Dragons style dice in C
  * 
- * d20.h is a reimplementation of https://github.com/opensourcedoc/d20-c,
- * but following the principles of being a single header/file library with
- * a minimal API
- * 
+ * d20.h is a reimplementation of https://github.com/opensourcedoc/d20-c,but following the principles of being a single header/file library with a minimal API.
+ * @source https://github.com/adamml/d20
  * @author adamml
  * @date 2022-11-07
 */
