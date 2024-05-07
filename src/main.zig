@@ -14,9 +14,6 @@ const GameScreen = enum {
 const Rotations = enum {
     left,
     right,
-    pub fn changeRotions(self: Rotations) Rotations {
-        return self;
-    }
 
     pub fn init(self: Rotations) Rotations {
         return self;
@@ -34,9 +31,7 @@ pub fn main() anyerror!void {
     var current_screen: GameScreen = .login;
     var frame_counter: i32 = 0;
 
-    // var zoom: f32 = 10;
-
-    var camera = rl.Camera3D{
+    var lot_camera = rl.Camera3D{
         .position = rl.Vector3.init(-90.0, 20.0, 90.0),
         .target = rl.Vector3.init(0, 0.0, 0),
         .up = rl.Vector3.init(0, 1.0, 0),
@@ -44,10 +39,18 @@ pub fn main() anyerror!void {
         .projection = rl.CameraProjection.camera_orthographic,
     };
 
-    const floorLevel = rl.Vector3.init(0.0, 0.0, 0.0);
-    const itemStatic = rl.Vector3.init(0.0, 2.0, 0.0);
+    var city_camera = rl.Camera3D{
+        .position = rl.Vector3.init(18.0, 21.0, 18),
+        .target = rl.Vector3.init(0, 0, 0),
+        .up = rl.Vector3.init(0, 1.0, 0),
+        .fovy = 45,
+        .projection = rl.CameraProjection.camera_perspective,
+    };
 
-    var rotation_manger = Rotations.init(Rotations.right);
+    const floorLevel = rl.Vector3.init(0.0, 0.0, 0.0);
+    const itemStatic = rl.Vector3.init(0.0, 1.0, 0.0);
+
+    var rotation_manager = Rotations.init(Rotations.left);
 
     rl.setTargetFPS(60);
 
@@ -55,10 +58,18 @@ pub fn main() anyerror!void {
     const splash = rl.Texture.init("resources/tsosplash.png");
     const table3 = rl.Texture.init("resources/items/dorms/table_3.png");
     const table4 = rl.Texture.init("resources/items/dorms/table_4.png");
+    const city = rl.loadImage("resources/cities/city_0100/elevation.png");
+    // const city_texture = rl.Texture.init("resources/cities/city_0100/vertexcolor.png");
     defer rl.unloadTexture(splash);
     defer rl.unloadTexture(logo);
     defer rl.unloadTexture(table4);
     defer rl.unloadTexture(table3);
+    defer rl.unloadImage(city);
+
+    const mesh = rl.genMeshHeightmap(city, rl.Vector3.init(16, 8, 16));
+    const model = rl.loadModelFromMesh(mesh);
+
+    // model.materials[0].maps[rl.MATERIAL_MAP_DIFFUSE].texture = city_texture;
 
     while (!rl.windowShouldClose()) {
 
@@ -79,30 +90,30 @@ pub fn main() anyerror!void {
                 const zoom_increment = 5;
 
                 if (rl.isKeyPressed(rl.KeyboardKey.key_s)) {
-                    if (camera.fovy == 10) {
-                        camera.fovy += zoom_increment;
+                    if (lot_camera.fovy == 10) {
+                        lot_camera.fovy += zoom_increment;
                     }
 
                     dbg.print("Zoom level: {any}\n", .{
-                        camera.fovy,
+                        lot_camera.fovy,
                     });
                 } else if (rl.isKeyPressed(rl.KeyboardKey.key_w)) {
-                    if (camera.fovy == 15) {
-                        camera.fovy -= zoom_increment;
+                    if (lot_camera.fovy == 15) {
+                        lot_camera.fovy -= zoom_increment;
                     }
 
                     dbg.print("Zoom level: {any}\n", .{
-                        camera.fovy,
+                        lot_camera.fovy,
                     });
                 }
 
                 if (rl.isKeyPressed(rl.KeyboardKey.key_a)) {
-                    camera.position = rl.Vector3.init(-90.0, 20.0, 90.0);
-                    rotation_manger = Rotations.changeRotions(Rotations.left);
+                    lot_camera.position = rl.Vector3.init(-90.0, 20.0, 90.0);
+                    rotation_manager = Rotations.init(Rotations.left);
                     dbg.print("Rotate right\n", .{});
                 } else if (rl.isKeyPressed(rl.KeyboardKey.key_d)) {
-                    camera.position = rl.Vector3.init(90.0, 20.0, 90.0);
-                    rotation_manger = Rotations.changeRotions(Rotations.right);
+                    lot_camera.position = rl.Vector3.init(90.0, 20.0, 90.0);
+                    rotation_manager = Rotations.init(Rotations.right);
                     dbg.print("Rotate left\n", .{});
                 }
 
@@ -127,18 +138,25 @@ pub fn main() anyerror!void {
             },
             // Skip this for now
             .cas => {},
-            .map => {},
+            .map => {
+                rl.clearBackground(rl.Color.sky_blue);
+
+                city_camera.begin();
+                defer city_camera.end();
+
+                rl.drawModel(model, floorLevel, 1.0, rl.Color.green);
+            },
             // Low view (i.e. world)
             .lot => {
                 rl.clearBackground(rl.Color.sky_blue);
 
-                camera.begin();
-                defer camera.end();
+                lot_camera.begin();
+                defer lot_camera.end();
 
                 rl.drawPlane(floorLevel, rl.Vector2.init(64, 64), rl.Color.dark_green);
-                switch (rotation_manger) {
-                    .right => rl.drawBillboard(camera, table4, itemStatic, 2.0, rl.Color.white),
-                    .left => rl.drawBillboard(camera, table3, itemStatic, 2.0, rl.Color.white),
+                switch (rotation_manager) {
+                    .right => rl.drawBillboard(lot_camera, table4, itemStatic, 2.0, rl.Color.white),
+                    .left => rl.drawBillboard(lot_camera, table3, itemStatic, 2.0, rl.Color.white),
                 }
 
                 // rl.drawGrid(64, 1.0);

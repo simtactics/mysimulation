@@ -25,17 +25,16 @@ See [motivation.md](./docs/motivation.md) for motivation and vision.
 - API Server
   - [.NET](https://dotnet.microsoft.com/en-us/) 8.0+
   - [Mockoon](https://mockoon.com/) for mock APIs (Optional)
-- Libaries & Tools
+- Libraries & Tools
   - TBA
 
 ### System Requirements
 
-| Platform | Version | Tier |
-| --- | --- | --- |
-| Windows | 10+ | 1 |
-| Linux | 3.16+ | 1 |
-| macOS | 11.0+ | 1 |
-| FreeBSD | 12.0+ | 2 |
+| Platform | Version | Architectures   |
+| -------- | ------- | --------------- |
+| Windows  | 10+     | x86_64, aarch64 |
+| Linux    | 3.16+   | x86_64          |
+| macOS    | 11.0+   | x86_64, aarch64 |
 
 ## Getting Started
 

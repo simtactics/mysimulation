@@ -80,9 +80,7 @@ pub fn build(b: *std.Build) void {
     });
 
     exe_unit_tests.linkLibC();
-    exe_unit_tests.addIncludePath(.{ .path = "./library/formats" });
-    exe_unit_tests.addIncludePath(.{ .path = "./library/libvitaboy" });
-    exe_unit_tests.addIncludePath(.{ .path = "./tools" });
+    exe_unit_tests.addIncludePath(.{ .path = "./library" });
 
     exe_unit_tests.root_module.addImport("raylib", raylib);
     exe_unit_tests.root_module.addImport("raylib-math", raylib_math);
