@@ -1,0 +1,38 @@
+{
+    "item": {
+        "name": "Dorm End chair",
+        "description": "Created by Judhudson@knology.net",
+        "version": 1,
+        "size": 1,
+        "catagory": "surfaces",
+        "base": "chair",
+        "views": {
+            "south": {
+                "texture": "chair_1.png",
+                "buffer": "chair_1_z.png"
+            },
+            "north": {
+                "texture": "chair_2.png",
+                "buffer": "chair_2_z.png"
+            }
+        },
+        "motives": {
+            "room": 5,
+            "hunger": 0,
+            "social": 0,
+            "comfort": 8,
+            "fun": 0,
+            "hygiene": 0,
+            "energy": 0,
+            "bladder": 0
+        },
+        "skills": {
+            "cooking": 5,
+            "mechanical": 0,
+            "charism": 0,
+            "body": 0,
+            "logic": 0,
+            "creativity": 0
+        }
+    }
+}

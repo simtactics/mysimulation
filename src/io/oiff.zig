@@ -15,6 +15,7 @@ pub const Motives = struct {
     room: i64, // Environment in later games
     hunger: i64,
     social: i64,
+    comfort: i64,
     hygiene: i64,
     fun: i64,
     energy: i64,

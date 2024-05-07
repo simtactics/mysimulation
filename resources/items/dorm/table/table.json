@@ -20,6 +20,7 @@
             "room": 5,
             "hunger": 0,
             "social": 0,
+            "comfort": 0,
             "fun": 0,
             "hygiene": 0,
             "energy": 0,

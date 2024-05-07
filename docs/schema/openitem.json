@@ -1,0 +1,152 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "item": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "integer"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "catagory": {
+                    "type": "string"
+                },
+                "base": {
+                    "type": "string"
+                },
+                "views": {
+                    "type": "object",
+                    "properties": {
+                        "south": {
+                            "type": "object",
+                            "properties": {
+                                "texture": {
+                                    "type": "string"
+                                },
+                                "buffer": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "texture",
+                                "buffer"
+                            ]
+                        },
+                        "north": {
+                            "type": "object",
+                            "properties": {
+                                "texture": {
+                                    "type": "string"
+                                },
+                                "buffer": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "texture",
+                                "buffer"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "south",
+                        "north"
+                    ]
+                },
+                "motives": {
+                    "type": "object",
+                    "properties": {
+                        "room": {
+                            "type": "integer"
+                        },
+                        "hunger": {
+                            "type": "integer"
+                        },
+                        "social": {
+                            "type": "integer"
+                        },
+                        "comfort": {
+                            "type": "integer"
+                        },
+                        "fun": {
+                            "type": "integer"
+                        },
+                        "hygiene": {
+                            "type": "integer"
+                        },
+                        "energy": {
+                            "type": "integer"
+                        },
+                        "bladder": {
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "room",
+                        "hunger",
+                        "social",
+                        "comfort",
+                        "fun",
+                        "hygiene",
+                        "energy",
+                        "bladder"
+                    ]
+                },
+                "skills": {
+                    "type": "object",
+                    "properties": {
+                        "cooking": {
+                            "type": "integer"
+                        },
+                        "mechanical": {
+                            "type": "integer"
+                        },
+                        "charism": {
+                            "type": "integer"
+                        },
+                        "body": {
+                            "type": "integer"
+                        },
+                        "logic": {
+                            "type": "integer"
+                        },
+                        "creativity": {
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "cooking",
+                        "mechanical",
+                        "charism",
+                        "body",
+                        "logic",
+                        "creativity"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "description",
+                "version",
+                "size",
+                "catagory",
+                "base",
+                "views",
+                "motives",
+                "skills"
+            ]
+        }
+    },
+    "required": [
+        "item"
+    ]
+}
