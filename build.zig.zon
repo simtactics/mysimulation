@@ -7,7 +7,7 @@
     // This field is optional.
     // This is currently advisory only; Zig does not yet do anything
     // with this value.
-    .minimum_zig_version = "0.12.0",
+    .minimum_zig_version = "0.11.0",
 
     // This field is optional.
     // Each dependency must either provide a `url` and `hash`, or a `path`.
@@ -18,6 +18,10 @@
         .@"raylib-zig" = .{
             .url = "https://github.com/tonytins/raylib-zig/archive/refs/tags/v5.1.103-dev.tar.gz",
             .hash = "1220f48ef45b22a393da16f3210b61b87ad9b65d215d02c51189861a57a1b4290059",
+        },
+        .clap = .{
+            .url = "https://github.com/Hejsil/zig-clap/archive/refs/tags/0.8.0.tar.gz",
+            .hash = "1220949d4e88864579067b6d4cdad6476c6176f27e782782c2c39b7f2c4817a10efb",
         },
     },
     .paths = .{

@@ -2,6 +2,7 @@ const std = @import("std");
 const rl = @import("raylib");
 const world = @import("world.zig");
 const nso = @import("niotso.zig");
+const clap = @import("clap");
 
 const dbg = std.debug;
 
@@ -104,11 +105,14 @@ pub fn main() anyerror!void {
     const chair2_rect = rl.Rectangle.init(0, 0, @as(f32, @floatFromInt(-chair2.width)), @as(f32, @floatFromInt(chair2.height)));
     const city = rl.loadImage("resources/cities/city_0100/elevation.png");
     // const city_texture = rl.Texture.init("resources/cities/city_0100/vertexcolor.png");
-    defer rl.unloadTexture(splash);
-    defer rl.unloadTexture(logo);
-    defer rl.unloadTexture(chair1);
-    defer rl.unloadTexture(chair2);
-    defer rl.unloadImage(city);
+    // TODO: figure out a better way to unload all images and textures.
+    defer {
+        rl.unloadTexture(splash);
+        rl.unloadTexture(logo);
+        rl.unloadTexture(chair1);
+        rl.unloadTexture(chair2);
+        rl.unloadImage(city);
+    }
 
     const mesh = rl.genMeshHeightmap(city, rl.Vector3.init(16, 8, 16));
     const model = rl.loadModelFromMesh(mesh);
