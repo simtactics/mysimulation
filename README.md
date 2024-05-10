@@ -44,6 +44,7 @@ See [motivation.md](./docs/motivation.md) for motivation and vision.
 
    ```bash
    git clone https://github.com/tonytins/mysimulation.git
+   git submodule update --init --recursive
    ```
 
 2. **Navigate to the Repository**:
