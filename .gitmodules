@@ -1,0 +1,3 @@
+[submodule "library/niotso"]
+	path = library/niotso
+	url = git@github.com:simtactics/niotso.git
