@@ -1,10 +1,10 @@
 name: Build
 
 on:
-    push:
-        branches: [main, dev]
-    pull_request:
-        branches: [main, dev]
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
 
 jobs:
   build:
@@ -21,19 +21,29 @@ jobs:
         run: zig build
       - name: Test
         run: zig build test
-  # ubuntu-build:
-  #   timeout-minutes: 15
-  #   continue-on-error: true
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: goto-bus-stop/setup-zig@v2
-  #     - name: Install OpenGL
-  #       run: apt-get libglu1-mesa-dev freeglut3-dev mesa-common-dev
-  #     - name: Build
-  #       run: zig build
-  #     - name: Test
-  #       run: zig build test
+  ubuntu-build:
+    timeout-minutes: 15
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: goto-bus-stop/setup-zig@v2
+      - name: setup dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install \
+            libasound2-dev \
+            libx11-dev \
+            libxrandr-dev \
+            libxi-dev \
+            libgl1-mesa-dev \
+            libglu1-mesa-dev \
+            libxcursor-dev \
+            libxinerama-dev
+      - name: Build
+        run: zig build
+      - name: Test
+        run: zig build test
   lint:
     needs: build
     timeout-minutes: 15
