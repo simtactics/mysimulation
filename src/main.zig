@@ -1,8 +1,10 @@
+/// Still in the proof of concept phase, don't mind the mess
 const std = @import("std");
 const rl = @import("raylib");
 const world = @import("world.zig");
 const nso = @import("niotso.zig");
 const clap = @import("clap");
+const view = @import("view.zig");
 
 const dbg = std.debug;
 
@@ -57,13 +59,11 @@ const RotationManager = struct {
     }
 };
 
-/// Still in the proof of concept phase, don't mind the mess
 pub fn main() anyerror!void {
     const screen_width = 800;
     const screen_height = 600;
 
-    rl.initWindow(screen_width, screen_height, "My Simulation");
-    defer rl.closeWindow();
+    view.init(true, screen_width, screen_height, "My Simulation");
 
     var current_screen: GameScreen = .login;
     var frame_counter: i32 = 0;
@@ -94,8 +94,6 @@ pub fn main() anyerror!void {
     var rotation_manager = RotationManager.init(.{
         .Direction = CardinalDirection.SouthEast,
     });
-
-    rl.setTargetFPS(60);
 
     const logo = rl.Texture.init("resources/logo.png");
     const splash = rl.Texture.init("resources/tsosplash.png");
@@ -179,8 +177,7 @@ pub fn main() anyerror!void {
         // ------------------
 
         // Draw
-        rl.beginDrawing();
-        defer rl.endDrawing();
+        view.render();
 
         switch (current_screen) {
             // Mockup loading screen, skips straight to world
@@ -225,10 +222,8 @@ pub fn main() anyerror!void {
                     },
                 }
 
-                // rl.drawGrid(64, 1.0);
+                rl.drawGrid(64, 1.0);
             },
         }
-
-        rl.drawFPS(10, 10);
     }
 }
