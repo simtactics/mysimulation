@@ -45,7 +45,7 @@ jobs:
       - name: Test
         run: zig build test
   lint:
-    needs: build
+    needs: ubuntu-build
     timeout-minutes: 15
     continue-on-error: true
     runs-on: ubuntu-latest
