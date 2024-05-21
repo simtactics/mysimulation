@@ -31,19 +31,25 @@ See [motivation.md](./docs/motivation.md) for motivation and vision.
 
 ### System Requirements
 
-| Platform | Version | Architectures   |
-| -------- | ------- | --------------- |
-| Windows  | 10+     | x86_64, aarch64 |
-| Linux    | 3.16+   | x86_64          |
-| macOS    | 11.0+   | x86_64, aarch64 |
+| Platform | Version | Architectures |
+| -------- | ------- | ------------- |
+| Windows  | 10+     | x86_64, ARM   |
+| Linux    | 3.16+   | x86_64        |
+| macOS    | 11.0+   | x86_64, ARM   |
 
 ## Getting Started
 
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/tonytins/mysimulation.git
+   git clone https://github.com/simtactics/mysimulation.git
    git submodule update --init --recursive
+   ```
+
+   Or, if you have the [Github CLI](https://cli.github.com/)...
+
+   ```bash
+   gh repo clone simtactics/mysimulation
    ```
 
 2. **Navigate to the Repository**:
