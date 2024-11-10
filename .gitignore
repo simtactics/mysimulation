@@ -1,6 +1,6 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
-# Created by https://www.toptal.com/developers/gitignore/api/zig,windows,visualstudiocode,macos,linux,cmake,dotnetcore,visualstudio
-# Edit at https://www.toptal.com/developers/gitignore?templates=zig,windows,visualstudiocode,macos,linux,cmake,dotnetcore,visualstudio
+# Created by https://www.toptal.com/developers/gitignore/api/zig,windows,visualstudiocode,visualstudio,macos,linux,dotnetcore,cmake
+# Edit at https://www.toptal.com/developers/gitignore?templates=zig,windows,visualstudiocode,visualstudio,macos,linux,dotnetcore,cmake
 
 ### CMake ###
 CMakeLists.txt.user
@@ -519,11 +519,15 @@ FodyWeavers.xsd
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
-# End of https://www.toptal.com/developers/gitignore/api/zig,windows,visualstudiocode,macos,linux,cmake,dotnetcore,visualstudio
+# End of https://www.toptal.com/developers/gitignore/api/zig,windows,visualstudiocode,visualstudio,macos,linux,dotnetcore,cmake
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
 *.wasm*
 
 ### A place for local files that is within the repo
-.local 
+.local
+
+## Updated Zig Cache directory
+
+.zig-cache/
