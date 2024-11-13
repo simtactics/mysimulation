@@ -69,19 +69,8 @@ They're many ways you can contribute to My Simulation such as trying things out,
 
 ## License
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
+I license this project under either the GPL-3.0 or the EUPL-1.2 license – your choice. See [LICENSE-GPL](LICENSE-GPL) or [LICENSE-EUPL](LICENSE-EUPL) for details.
 
 ## Disclaimer
 
-My Simulation is not in any way affiliated with Electronic Arts, Maxis or The Sims, it is an unofficial community run project.
+*My Simulation is not in any way affiliated with Electronic Arts, Maxis or The Sims, it is an unofficial community run project.*
