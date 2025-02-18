@@ -527,3 +527,4 @@ FodyWeavers.xsd
 
 ### A place for local files that is within the repo
 .local 
+.zig-cache/
