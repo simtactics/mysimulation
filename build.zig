@@ -15,17 +15,26 @@ pub fn build(b: *std.Build) void {
     // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{});
 
-    const exe = b.addExecutable(.{
-        .name = "mysim",
-        .root_source_file = b.path("src/main.zig"),
+    const lib = b.addStaticLibrary(.{
+        .name = "mysimulation",
+        // In this case the main source file is merely a path, however, in more
+        // complicated build scripts, this could be a generated file.
+        .root_source_file = b.path("src/root.zig"),
         .target = target,
         .optimize = optimize,
     });
 
-    // C headers
-    exe.linkLibC();
-    exe.linkLibCpp();
-    exe.addIncludePath(.{ .path = "./library" });
+    // This declares intent for the library to be installed into the standard
+    // location when the user invokes the "install" step (the default step when
+    // running `zig build`).
+    b.installArtifact(lib);
+
+    const exe = b.addExecutable(.{
+        .name = "mysimulation",
+        .root_source_file = b.path("src/main.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
 
     // Modules
     const raylib_dep = b.dependency("raylib-zig", .{
@@ -34,25 +43,12 @@ pub fn build(b: *std.Build) void {
     });
 
     const raylib = raylib_dep.module("raylib"); // main raylib module
-    const raylib_math = raylib_dep.module("raylib-math"); // raymath module
-    // const raylib_gui = raylib_dep.module("raylib-gui"); // raylib gui
-    const rlgl = raylib_dep.module("rlgl"); // rlgl module
+    const raygui = raylib_dep.module("raygui"); // raygui module
     const raylib_artifact = raylib_dep.artifact("raylib"); // raylib C library
 
     exe.linkLibrary(raylib_artifact);
     exe.root_module.addImport("raylib", raylib);
-    exe.root_module.addImport("raylib-math", raylib_math);
-    // exe.root_module.addImport("raylib-gui", raylib_gui);
-    exe.root_module.addImport("rlgl", rlgl);
-
-    const clap_dep = b.dependency("clap", .{
-        .target = target,
-        .optimize = optimize,
-    });
-
-    const clap = clap_dep.module("clap"); // main clap module
-
-    exe.root_module.addImport("clap", clap);
+    exe.root_module.addImport("raygui", raygui);
 
     // This declares intent for the executable to be installed into the
     // standard location when the user invokes the "install" step (the default
@@ -82,20 +78,21 @@ pub fn build(b: *std.Build) void {
     const run_step = b.step("run", "Run the app");
     run_step.dependOn(&run_cmd.step);
 
+    // Creates a step for unit testing. This only builds the test executable
+    // but does not run it.
+    const lib_unit_tests = b.addTest(.{
+        .root_source_file = b.path("src/root.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+
+    const run_lib_unit_tests = b.addRunArtifact(lib_unit_tests);
+
     const exe_unit_tests = b.addTest(.{
         .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
     });
-
-    exe_unit_tests.linkLibC();
-    exe_unit_tests.linkLibCpp();
-    exe_unit_tests.addIncludePath(.{ .path = "./library" });
-
-    exe_unit_tests.root_module.addImport("raylib", raylib);
-    exe_unit_tests.root_module.addImport("raylib-math", raylib_math);
-    // exe.root_module.addImport("raylib-gui", raylib_gui);
-    exe_unit_tests.root_module.addImport("rlgl", rlgl);
 
     const run_exe_unit_tests = b.addRunArtifact(exe_unit_tests);
 
@@ -103,5 +100,6 @@ pub fn build(b: *std.Build) void {
     // the `zig build --help` menu, providing a way for the user to request
     // running the unit tests.
     const test_step = b.step("test", "Run unit tests");
+    test_step.dependOn(&run_lib_unit_tests.step);
     test_step.dependOn(&run_exe_unit_tests.step);
 }

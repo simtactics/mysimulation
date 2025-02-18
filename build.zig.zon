@@ -1,13 +1,21 @@
 .{
-    .name = "mysim",
+    // This is the default name used by packages depending on this one. For
+    // example, when a user runs `zig fetch --save <url>`, this field is used
+    // as the key in the `dependencies` table. Although the user can choose a
+    // different name, most users will stick with this provided value.
+    //
+    // It is redundant to include "zig" in this name because it is already
+    // within the Zig package namespace.
+    .name = "mysimulation",
+
     // This is a [Semantic Version](https://semver.org/).
     // In a future version of Zig it will be used for package deduplication.
-    .version = "0.1.101",
+    .version = "0.0.0",
 
     // This field is optional.
     // This is currently advisory only; Zig does not yet do anything
     // with this value.
-    .minimum_zig_version = "0.11.0",
+    //.minimum_zig_version = "0.11.0",
 
     // This field is optional.
     // Each dependency must either provide a `url` and `hash`, or a `path`.
@@ -16,24 +24,15 @@
     // internet connectivity.
     .dependencies = .{
         .@"raylib-zig" = .{
-            .url = "https://github.com/tonytins/raylib-zig/archive/refs/tags/v5.1.104-dev.tar.gz",
-            .hash = "12209530dc7475f8095a729a46082093578911b74d1cfde28802954fe23de1be411c",
-        },
-        .clap = .{
-            .url = "https://github.com/Hejsil/zig-clap/archive/refs/tags/0.8.0.tar.gz",
-            .hash = "1220949d4e88864579067b6d4cdad6476c6176f27e782782c2c39b7f2c4817a10efb",
+            .url = "git+https://github.com/Not-Nik/raylib-zig?ref=devel#4d452b2bcd0157199d07c70d79d4f84e6f8bd659",
+            .hash = "1220c531f8d0bfbc18944b6084916c520834a951520a8c033fc576fef8b240ee0fc2",
         },
     },
     .paths = .{
-        // This makes *all* files, recursively, included in this package. It is generally
-        // better to explicitly list the files and directories instead, to insure that
-        // fetching from tarballs, file system paths, and version control all result
-        // in the same contents hash.
-        "",
+        "build.zig",
+        "build.zig.zon",
+        "src",
         // For example...
-        //"build.zig",
-        //"build.zig.zon",
-        //"src",
         //"LICENSE",
         //"README.md",
     },
